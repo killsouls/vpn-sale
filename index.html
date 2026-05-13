@@ -443,6 +443,138 @@
     border: 1px solid rgba(108,92,231,0.3);
   }
 
+  /* Admin */
+  .admin-trigger {
+    text-align: center;
+    padding: 10px;
+  }
+  .admin-trigger a {
+    color: rgba(255,255,255,0.08);
+    font-size: 11px;
+    text-decoration: none;
+    cursor: default;
+  }
+  .admin-trigger a:hover { color: var(--subtle); }
+  .admin-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .admin-overlay.active { display: flex; }
+  .admin-panel {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 420px;
+    width: 100%;
+    border: 2px solid var(--gold);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .admin-panel h3 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+    color: var(--gold);
+  }
+  .admin-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .admin-section:last-child { border-bottom: none; }
+  .admin-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--accent2);
+  }
+  .admin-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .admin-input {
+    flex: 1;
+    padding: 10px 14px;
+    background: #0a0a1a;
+    border: 2px solid rgba(108,92,231,0.3);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    font-family: monospace;
+    outline: none;
+  }
+  .admin-input:focus { border-color: var(--accent); }
+  .admin-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .admin-btn.save {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    color: #fff;
+  }
+  .admin-btn.reset {
+    background: rgba(231,76,60,0.2);
+    color: #e74c3c;
+    border: 1px solid rgba(231,76,60,0.3);
+  }
+  .admin-stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+  }
+  .admin-stat .val {
+    font-weight: 700;
+    color: var(--accent2);
+  }
+  .admin-login {
+    text-align: center;
+  }
+  .admin-login input {
+    width: 100%;
+    padding: 14px;
+    background: #0a0a1a;
+    border: 2px solid rgba(108,92,231,0.3);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  .admin-login .admin-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background: var(--gold);
+    color: #1a1a2e;
+  }
+  .admin-back {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    color: var(--subtle);
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+
   /* Mobile optimization */
   @media (max-width: 360px) {
     .stat-num { font-size: 20px; }
@@ -562,6 +694,57 @@
   <div class="footer">
     <p>支持 Clash / Shadowrocket / V2rayN / Surge 等主流客户端</p>
     <p style="margin-top:4px;">购买后联系客服获取订阅链接 · 24小时在线</p>
+    <div class="admin-trigger"><a href="javascript:void(0)" onclick="openAdmin()">·</a></div>
+  </div>
+</div>
+
+<!-- Admin Panel -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-panel" id="adminPanel">
+    <!-- Login View -->
+    <div id="adminLogin">
+      <h3>🔐 管理员登录</h3>
+      <div class="admin-login">
+        <input type="password" id="adminPwd" placeholder="请输入管理密码" autocomplete="off">
+        <button class="admin-btn" onclick="adminLogin()">登录</button>
+      </div>
+      <button class="admin-back" onclick="closeAdmin()">关闭</button>
+    </div>
+    <!-- Dashboard View (hidden by default) -->
+    <div id="adminDashboard" style="display:none">
+      <h3>⚙️ 管理员后台</h3>
+      
+      <div class="admin-section">
+        <div class="admin-label">🔑 修改验证码</div>
+        <div class="admin-row">
+          <input type="text" class="admin-input" id="adminCode" maxlength="6" placeholder="6位数字">
+          <button class="admin-btn save" onclick="saveCode()">💾 保存</button>
+        </div>
+      </div>
+
+      <div class="admin-section">
+        <div class="admin-label">📊 使用统计</div>
+        <div class="admin-stat">
+          <span>验证尝试次数</span>
+          <span class="val" id="statTotal">0</span>
+        </div>
+        <div class="admin-stat">
+          <span>验证成功次数</span>
+          <span class="val" id="statSuccess">0</span>
+        </div>
+        <div class="admin-stat">
+          <span>验证失败次数</span>
+          <span class="val" id="statFail">0</span>
+        </div>
+        <div class="admin-stat">
+          <span>当前验证码</span>
+          <span class="val" id="statCode">---</span>
+        </div>
+        <button class="admin-btn reset" onclick="resetStats()">🔄 重置统计</button>
+      </div>
+
+      <button class="admin-back" onclick="closeAdmin()">关闭后台</button>
+    </div>
   </div>
 </div>
 
@@ -580,11 +763,6 @@
     </div>
     <div class="pay-note">
       支持支付宝扫码支付
-    </div>
-
-    <div class="modal-step">
-      <div class="step-num">2</div>
-      <div>支付完成后，点击下方按钮获取订阅链接</div>
     </div>
 
     <div class="modal-step">
@@ -616,11 +794,26 @@
 const SUB_LINK = "aHR0cHM6Ly9keTExLmJhaXBpYW95ZXMuY29tL2FwaS92MS9jbGllbnQvc3Vic2NyaWJlP3Rva2VuPTgzZTE1NTQyNzQzYTUzOGYyZWY0YzhhZTRjNjU2MDA1";
 
 // ==========================================
-// ⚙️ 卖家设置：修改下面的验证码（6位）
-//    买家付款后，把这个码发给买家
+// ⚙️ 默认验证码（管理员可在后台修改）
 // ==========================================
-const VALID_CODE = "888888";  // 👈 改成你自己的6位验证码
+const DEFAULT_CODE = "888888";
+const ADMIN_PASSWORD = "admin520";
 
+// Get verification code (from localStorage or default)
+function getCode() {
+  return localStorage.getItem('vpn_code') || DEFAULT_CODE;
+}
+
+// Stats
+function getStats() {
+  try { return JSON.parse(localStorage.getItem('vpn_stats')) || { total:0, success:0, fail:0 }; }
+  catch(e) { return { total:0, success:0, fail:0 }; }
+}
+function saveStats(s) {
+  localStorage.setItem('vpn_stats', JSON.stringify(s));
+}
+
+// ── Purchase Modal ──
 function openModal() {
   document.getElementById('modal').classList.add('active');
   document.getElementById('codeError').classList.remove('show');
@@ -639,14 +832,20 @@ function revealLink() {
   const linkInput = document.getElementById('linkInput');
 
   const entered = codeInput.value.trim();
+  const stats = getStats();
+  stats.total++;
 
   if (!entered) {
+    stats.fail++;
+    saveStats(stats);
     codeError.textContent = '⚠️ 请输入验证码';
     codeError.classList.add('show');
     return;
   }
 
-  if (entered !== VALID_CODE) {
+  if (entered !== getCode()) {
+    stats.fail++;
+    saveStats(stats);
     codeError.textContent = '❌ 验证码错误，请联系客服获取';
     codeError.classList.add('show');
     codeInput.value = '';
@@ -654,31 +853,27 @@ function revealLink() {
     return;
   }
 
-  // Correct code - reveal the link
+  // Correct code
+  stats.success++;
+  saveStats(stats);
   codeError.classList.remove('show');
   linkInput.value = atob(SUB_LINK);
   linkBox.classList.add('show');
-
   showToast('✅ 订阅链接已生成，请复制使用！');
 }
 
 function copyLink() {
   const linkInput = document.getElementById('linkInput');
   const btnCopy = document.getElementById('btnCopy');
-
   linkInput.select();
   document.execCommand('copy');
-
-  // Also try modern clipboard API
   navigator.clipboard?.writeText(linkInput.value);
-
   btnCopy.textContent = '✅ 已复制！';
   btnCopy.classList.add('copied');
   setTimeout(() => {
     btnCopy.textContent = '📋 复制链接';
     btnCopy.classList.remove('copied');
   }, 2000);
-
   showToast('📋 链接已复制到剪贴板！');
 }
 
@@ -689,10 +884,83 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 2000);
 }
 
-// Close modal on overlay click
+// ── Admin Panel ──
+let adminLoggedIn = false;
+
+function openAdmin() {
+  document.getElementById('adminOverlay').classList.add('active');
+  if (adminLoggedIn) showDashboard(); else showLogin();
+}
+
+function closeAdmin() {
+  document.getElementById('adminOverlay').classList.remove('active');
+}
+
+function showLogin() {
+  document.getElementById('adminLogin').style.display = 'block';
+  document.getElementById('adminDashboard').style.display = 'none';
+  document.getElementById('adminPwd').value = '';
+  adminLoggedIn = false;
+}
+
+function showDashboard() {
+  document.getElementById('adminLogin').style.display = 'none';
+  document.getElementById('adminDashboard').style.display = 'block';
+  document.getElementById('adminCode').value = getCode();
+  refreshStats();
+}
+
+function adminLogin() {
+  const pwd = document.getElementById('adminPwd').value.trim();
+  if (pwd === ADMIN_PASSWORD) {
+    adminLoggedIn = true;
+    showDashboard();
+  } else {
+    showToast('❌ 密码错误');
+  }
+}
+
+function saveCode() {
+  const code = document.getElementById('adminCode').value.trim();
+  if (code.length < 4) { showToast('⚠️ 验证码至少4位'); return; }
+  localStorage.setItem('vpn_code', code);
+  refreshStats();
+  showToast('✅ 验证码已更新');
+}
+
+function refreshStats() {
+  const stats = getStats();
+  document.getElementById('statTotal').textContent = stats.total;
+  document.getElementById('statSuccess').textContent = stats.success;
+  document.getElementById('statFail').textContent = stats.fail;
+  document.getElementById('statCode').textContent = getCode();
+}
+
+function resetStats() {
+  if (confirm('确定要重置统计数据吗？')) {
+    localStorage.setItem('vpn_stats', JSON.stringify({ total:0, success:0, fail:0 }));
+    refreshStats();
+    showToast('✅ 统计已重置');
+  }
+}
+
+// Enter key support for all inputs
+document.getElementById('adminPwd')?.addEventListener('keydown', e => { if (e.key === 'Enter') adminLogin(); });
+document.getElementById('adminCode')?.addEventListener('keydown', e => { if (e.key === 'Enter') saveCode(); });
+document.getElementById('codeInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') revealLink(); });
+
+// Close overlays on outside click
 document.getElementById('modal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
+document.getElementById('adminOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAdmin();
+});
+
+// Auto-open admin if URL has ?admin
+if (window.location.search.includes('admin')) {
+  setTimeout(openAdmin, 500);
+}
 </script>
 
 </body>
