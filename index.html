@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ 极速网络 - 全球节点加速服务</title>
+<style>
+  :root {
+    --bg: #0a0a1a;
+    --card: #111133;
+    --accent: #6c5ce7;
+    --accent2: #a29bfe;
+    --gold: #f9ca24;
+    --text: #e0e0e0;
+    --subtle: #8888aa;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(108,92,231,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(162,155,254,0.08) 0%, transparent 60%);
+  }
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 30px 0 10px;
+  }
+  .logo {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 8px;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .title {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe, #f9ca24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle {
+    color: var(--subtle);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  /* Stats Banner */
+  .stats {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  .stat-card {
+    flex: 1;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+    border: 1px solid rgba(108,92,231,0.2);
+  }
+  .stat-num {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--subtle);
+    margin-top: 4px;
+  }
+
+  /* Product Card */
+  .product-card {
+    background: linear-gradient(145deg, #151540, #0d0d30);
+    border-radius: 20px;
+    padding: 28px 20px;
+    border: 2px solid rgba(108,92,231,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent, rgba(108,92,231,0.06), transparent, rgba(249,202,36,0.06), transparent);
+    animation: rotate 8s linear infinite;
+  }
+  @keyframes rotate { 100% { transform: rotate(360deg); } }
+  .product-card > * { position: relative; z-index: 1; }
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .plan-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .plan-desc {
+    color: var(--subtle);
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .features {
+    list-style: none;
+    margin-bottom: 20px;
+  }
+  .features li {
+    padding: 8px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .features li .icon { font-size: 18px; width: 24px; text-align: center; }
+  .price-box {
+    text-align: center;
+    padding: 16px 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px;
+  }
+  .price-original {
+    font-size: 14px;
+    color: var(--subtle);
+    text-decoration: line-through;
+  }
+  .price-now {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1.2;
+  }
+  .price-now small {
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  /* Buy Button */
+  .btn-buy {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: #fff;
+    transition: all 0.3s;
+    letter-spacing: 2px;
+  }
+  .btn-buy:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(108,92,231,0.4);
+  }
+  .btn-buy:active { transform: scale(0.97); }
+
+  /* Nodes Preview */
+  .nodes-section {
+    margin-top: 20px;
+  }
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .node-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .node-item {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px;
+  }
+  .node-flag { font-size: 20px; margin-right: 4px; }
+  .node-name { font-weight: 600; }
+  .node-info {
+    font-size: 11px;
+    color: var(--subtle);
+    margin-top: 2px;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 420px;
+    width: 100%;
+    border: 1px solid rgba(108,92,231,0.3);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal h3 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .modal-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    font-size: 14px;
+  }
+  .step-num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .qr-code {
+    display: block;
+    width: 200px; height: 200px;
+    margin: 16px auto;
+    border-radius: 12px;
+    object-fit: contain;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+  .qr-placeholder {
+    width: 180px; height: 180px;
+    margin: 16px auto;
+    background: #fff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-size: 13px;
+    text-align: center;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    line-height: 1.6;
+  }
+  .pay-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--subtle);
+    margin-top: 8px;
+  }
+  .btn-reveal {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    background: linear-gradient(135deg, #f9ca24, #f0932b);
+    color: #1a1a2e;
+    margin-top: 16px;
+    transition: all 0.3s;
+  }
+  .btn-reveal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(249,202,36,0.3);
+  }
+  .link-box {
+    display: none;
+    margin-top: 16px;
+    background: #0a0a1a;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid rgba(249,202,36,0.3);
+  }
+  .link-box.show { display: block; }
+  .link-box label {
+    font-size: 12px;
+    color: var(--subtle);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .link-input {
+    width: 100%;
+    padding: 10px;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: var(--accent2);
+    font-size: 12px;
+    font-family: monospace;
+    word-break: break-all;
+    resize: none;
+  }
+  .btn-copy {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--accent2);
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s;
+  }
+  .btn-copy:hover { background: rgba(108,92,231,0.15); }
+  .btn-copy.copied { background: #27ae60; border-color: #27ae60; color: #fff; }
+  .code-input-group {
+    margin: 12px 0;
+  }
+  .code-input {
+    width: 100%;
+    padding: 14px 16px;
+    background: #0a0a1a;
+    border: 2px solid rgba(108,92,231,0.3);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 8px;
+    font-family: monospace;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 8px;
+  }
+  .code-input:focus { border-color: var(--accent); }
+  .code-input::placeholder {
+    color: rgba(255,255,255,0.15);
+    letter-spacing: 2px;
+    font-size: 14px;
+  }
+  .code-error {
+    display: none;
+    color: #e74c3c;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .code-error.show { display: block; }
+  .code-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--subtle);
+    margin-top: 4px;
+  }
+  .close-modal {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    color: var(--subtle);
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 12px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 30px 0 10px;
+    color: var(--subtle);
+    font-size: 12px;
+  }
+  .footer a { color: var(--accent2); text-decoration: none; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #27ae60;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+
+  /* Protocol badges */
+  .protocol-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .protocol-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: rgba(108,92,231,0.2);
+    color: var(--accent2);
+    border: 1px solid rgba(108,92,231,0.3);
+  }
+
+  /* Mobile optimization */
+  @media (max-width: 360px) {
+    .stat-num { font-size: 20px; }
+    .price-now { font-size: 34px; }
+    .node-list { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <span class="logo">🌐</span>
+    <div class="title">闪电网络</div>
+    <div class="subtitle">全球高速节点 · 稳定畅联</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">全球节点</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">1Gbps</div>
+      <div class="stat-label">峰值带宽</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">99.9%</div>
+      <div class="stat-label">在线率</div>
+    </div>
+  </div>
+
+  <!-- Product Card -->
+  <div class="product-card">
+    <span class="badge">🔥 限时特惠</span>
+    <div class="plan-name">🌏 全球畅联套餐</div>
+    <div class="plan-desc">高速专线 · 无限设备 · 多协议支持</div>
+
+    <ul class="features">
+      <li>
+        <span class="icon">📦</span>
+        <span><strong>1000GB</strong> 超大流量</span>
+      </li>
+      <li>
+        <span class="icon">⏰</span>
+        <span>有效期 <strong>9个月</strong></span>
+      </li>
+      <li>
+        <span class="icon">📱</span>
+        <span>全平台通用（iOS/Android/Win/Mac）</span>
+      </li>
+      <li>
+        <span class="icon">🔗</span>
+        <span>一键导入，无需复杂配置</span>
+      </li>
+      <li>
+        <span class="icon">🔄</span>
+        <span>节点自动更新</span>
+      </li>
+      <li>
+        <span class="icon">🛡️</span>
+        <span>端到端加密传输</span>
+      </li>
+    </ul>
+
+    <div class="protocol-badges">
+      <span class="protocol-badge">V2Ray</span>
+      <span class="protocol-badge">VMess</span>
+      <span class="protocol-badge">Trojan</span>
+      <span class="protocol-badge">Shadowsocks</span>
+      <span class="protocol-badge">Clash</span>
+    </div>
+
+    <div class="price-box">
+      <div class="price-original">原价 ¥199</div>
+      <div class="price-now"><small>¥</small>50</div>
+    </div>
+
+    <button class="btn-buy" onclick="openModal()">💳 立即购买</button>
+  </div>
+
+  <!-- Node Preview -->
+  <div class="nodes-section">
+    <div class="section-title">🌍 部分节点预览</div>
+    <div class="node-list">
+      <div class="node-item">
+        <div class="node-name"><span class="node-flag">🇯🇵</span> 日本东京</div>
+        <div class="node-info">延迟 40ms · 1Gbps</div>
+      </div>
+      <div class="node-item">
+        <div class="node-name"><span class="node-flag">🇸🇬</span> 新加坡</div>
+        <div class="node-info">延迟 60ms · 1Gbps</div>
+      </div>
+      <div class="node-item">
+        <div class="node-name"><span class="node-flag">🇺🇸</span> 美国洛杉矶</div>
+        <div class="node-info">延迟 160ms · 1Gbps</div>
+      </div>
+      <div class="node-item">
+        <div class="node-name"><span class="node-flag">🇭🇰</span> 中国香港</div>
+        <div class="node-info">延迟 30ms · 1Gbps</div>
+      </div>
+      <div class="node-item">
+        <div class="node-name"><span class="node-flag">🇰🇷</span> 韩国首尔</div>
+        <div class="node-info">延迟 50ms · 1Gbps</div>
+      </div>
+      <div class="node-item">
+        <div class="node-name"><span class="node-flag">🇹🇼</span> 中国台湾</div>
+        <div class="node-info">延迟 35ms · 1Gbps</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>支持 Clash / Shadowrocket / V2rayN / Surge 等主流客户端</p>
+    <p style="margin-top:4px;">购买后联系客服获取订阅链接 · 24小时在线</p>
+  </div>
+</div>
+
+<!-- Purchase Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <h3>🛒 购买流程</h3>
+
+    <div class="modal-step">
+      <div class="step-num">1</div>
+      <div>扫描下方二维码支付 <strong>¥50</strong></div>
+    </div>
+    <img class="qr-code" src="qr.png" alt="收款码" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="qr-placeholder" style="display:none">
+      ⚠️ 请将收款码截图<br>保存为 qr.png<br>放到本文件夹
+    </div>
+    <div class="pay-note">
+      支持微信扫码支付 · 支付宝扫码支付
+    </div>
+
+    <div class="modal-step">
+      <div class="step-num">2</div>
+      <div>支付完成后，点击下方按钮获取订阅链接</div>
+    </div>
+
+    <div class="modal-step">
+      <div class="step-num">2</div>
+      <div>支付完成后联系客服获取验证码</div>
+    </div>
+
+    <div class="code-input-group">
+      <input type="text" class="code-input" id="codeInput" placeholder="请输入6位验证码" maxlength="6" autocomplete="off">
+      <button class="btn-reveal" onclick="revealLink()">✅ 验证并获取订阅链接</button>
+    </div>
+    <div class="code-error" id="codeError">❌ 验证码错误，请联系客服获取</div>
+
+    <div class="link-box" id="linkBox">
+      <label>📋 订阅链接（复制到客户端即可使用）</label>
+      <textarea class="link-input" id="linkInput" readonly rows="2"></textarea>
+      <button class="btn-copy" id="btnCopy" onclick="copyLink()">📋 复制链接</button>
+    </div>
+
+    <button class="close-modal" onclick="closeModal()">关闭</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// Subscription link - base64 encoded for protection
+const SUB_LINK = "aHR0cHM6Ly9keTExLmJhaXBpYW95ZXMuY29tL2FwaS92MS9jbGllbnQvc3Vic2NyaWJlP3Rva2VuPTgzZTE1NTQyNzQzYTUzOGYyZWY0YzhhZTRjNjU2MDA1";
+
+// ==========================================
+// ⚙️ 卖家设置：修改下面的验证码（6位）
+//    买家付款后，把这个码发给买家
+// ==========================================
+const VALID_CODE = "888888";  // 👈 改成你自己的6位验证码
+
+function openModal() {
+  document.getElementById('modal').classList.add('active');
+  document.getElementById('codeError').classList.remove('show');
+  document.getElementById('codeInput').value = '';
+  document.getElementById('linkBox').classList.remove('show');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+
+function revealLink() {
+  const codeInput = document.getElementById('codeInput');
+  const codeError = document.getElementById('codeError');
+  const linkBox = document.getElementById('linkBox');
+  const linkInput = document.getElementById('linkInput');
+
+  const entered = codeInput.value.trim();
+
+  if (!entered) {
+    codeError.textContent = '⚠️ 请输入验证码';
+    codeError.classList.add('show');
+    return;
+  }
+
+  if (entered !== VALID_CODE) {
+    codeError.textContent = '❌ 验证码错误，请联系客服获取';
+    codeError.classList.add('show');
+    codeInput.value = '';
+    codeInput.focus();
+    return;
+  }
+
+  // Correct code - reveal the link
+  codeError.classList.remove('show');
+  linkInput.value = atob(SUB_LINK);
+  linkBox.classList.add('show');
+
+  showToast('✅ 订阅链接已生成，请复制使用！');
+}
+
+function copyLink() {
+  const linkInput = document.getElementById('linkInput');
+  const btnCopy = document.getElementById('btnCopy');
+
+  linkInput.select();
+  document.execCommand('copy');
+
+  // Also try modern clipboard API
+  navigator.clipboard?.writeText(linkInput.value);
+
+  btnCopy.textContent = '✅ 已复制！';
+  btnCopy.classList.add('copied');
+  setTimeout(() => {
+    btnCopy.textContent = '📋 复制链接';
+    btnCopy.classList.remove('copied');
+  }, 2000);
+
+  showToast('📋 链接已复制到剪贴板！');
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+
+</body>
+</html>
