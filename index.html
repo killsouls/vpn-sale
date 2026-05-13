@@ -148,7 +148,8 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
     <li><span class="check">✓</span> 节点每日自动更新，无需手动维护</li>
     <li><span class="check">✓</span> 1Gbps 高速带宽，4K 视频秒开</li>
   </ul>
-  <button class="bb" onclick="openBuy()">💳 立 即 购 买</button>
+  <button class="bb" onclick="window.open('https://www.xichen22.com/s/kb5PHyS99mG','_blank')">💳 立 即 购 买</button>
+  <p style="margin-top:12px;font-size:13px;color:var(--s)">已付款？<a href="javascript:void(0)" onclick="openBuy()" style="color:#a78bfa;text-decoration:underline;cursor:pointer">输入验证码获取订阅</a></p>
 </div>
 
 <div class="ft">
@@ -158,10 +159,8 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 </div>
 
 <!-- 购买弹窗 -->
-<div class="ov" id="bo"><div class="md"><h3>🛒 购买流程</h3>
-<p style="text-align:center;font-size:14px;margin-bottom:4px">① 支付宝扫码支付 <strong>¥<span id="mp">50</span></strong></p>
-<img class="qr" src="qr.png" alt="收款码" onerror="this.style.display='none'">
-<p style="text-align:center;font-size:12px;color:var(--s);margin:8px 0">② 支付后联系客服获取验证码</p>
+<div class="ov" id="bo"><div class="md"><h3>✅ 输入验证码</h3>
+<p style="text-align:center;font-size:13px;color:var(--s);margin-bottom:8px">付款后联系客服获取验证码</p>
 <input class="ci" id="ci" placeholder="输入6位验证码" maxlength="6" autocomplete="off">
 <div class="ce" id="ce">❌ 验证码错误</div>
 <button class="bt bt-g" style="width:100%;padding:14px;margin-top:6px" onclick="vc()">✅ 验证并获取订阅</button>
@@ -223,7 +222,7 @@ function renderPkgs(){
 }
 
 // Buy
-function openBuy(){document.getElementById('bo').classList.add('ac');document.getElementById('ci').value='';document.getElementById('ce').classList.remove('sh');document.getElementById('lb2').classList.remove('sh');document.getElementById('mp').textContent='50';document.getElementById('pkgPrice').textContent='50';document.getElementById('pkgInfo').textContent='1000GB 流量 · 9个月有效期';document.getElementById('pkgDetail').textContent=''}
+function openBuy(){document.getElementById('bo').classList.add('ac');document.getElementById('ci').value='';document.getElementById('ce').classList.remove('sh');document.getElementById('lb2').classList.remove('sh');document.getElementById('pkgDetail').textContent=''}
 function closeBuy(){document.getElementById('bo').classList.remove('ac')}
 function vc(){
   const v=document.getElementById('ci').value.trim(),e=document.getElementById('ce');
