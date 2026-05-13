@@ -80,8 +80,8 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
 <div class="h"><span>⚡</span><h1>闪电网络</h1><p>全球高速专线 · 多协议支持 · 一键导入</p></div>
 <div class="sb"><div><b>24</b><i>全球节点</i></div><div><b>10</b><i>覆盖地区</i></div><div><b>1Gbps</b><i>峰值带宽</i></div><div><b>808GB</b><i>剩余流量</i></div></div>
 
-<!-- 一键导入 -->
-<div class="ib"><span class="lb">🔗 一键订阅导入</span><div class="ub"><input id="su" value="https://late-newt-55.killsouls.deno.net" readonly><button class="bt bt-p" onclick="copyT('https://late-newt-55.killsouls.deno.net')">📋 复制</button></div><div class="ibtns"><button class="bt bt-o" onclick="openG('clash')">🟣 Clash</button><button class="bt bt-o" onclick="openG('sr')">📱 小火箭</button><button class="bt bt-o" onclick="openG('v2ray')">💻 V2Ray</button><button class="bt bt-o" onclick="openG('surge')">🌊 Surge</button></div></div>
+<!-- 一键导入（验证后显示） -->
+<div class="ib" id="importBar" style="display:none"><span class="lb">🔗 一键订阅导入</span><div class="ub"><input id="su" value="https://late-newt-55.killsouls.deno.net" readonly><button class="bt bt-p" onclick="copyT('https://late-newt-55.killsouls.deno.net')">📋 复制</button></div><div class="ibtns"><button class="bt bt-o" onclick="openG('clash')">🟣 Clash</button><button class="bt bt-o" onclick="openG('sr')">📱 小火箭</button><button class="bt bt-o" onclick="openG('v2ray')">💻 V2Ray</button><button class="bt bt-o" onclick="openG('surge')">🌊 Surge</button></div></div>
 
 <!-- 购买区域 -->
 <div class="by" id="buy"><h3>🔥 限时特惠</h3><p id="pkgInfo">1000GB · 9个月 · 全平台通用</p><div class="og">原价 ¥199</div><div class="pr"><small>¥</small><span id="pkgPrice">50</span></div><ul><li>✅ 全平台通用（iOS/Android/Win/Mac）</li><li>✅ 一键订阅导入，无需手动配置</li><li>✅ 节点每日自动更新</li><li>✅ Clash / Shadowrocket / V2Ray / Surge</li></ul><button class="bb" onclick="openBuy()">💳 立即购买</button></div>
@@ -184,6 +184,7 @@ function vc(){
     const exp=new Date(Date.now()+pkg.mo*30*86400000).toLocaleDateString('zh-CN');
     document.getElementById('pkgDetail').innerHTML=`📦 <b>${pkg.name}</b> · ${pkg.gb}GB · ${pkg.mo}个月 · 到期: ${exp}`;
     document.getElementById('lb2').classList.add('sh');
+    document.getElementById('importBar').style.display='flex';
     toast(`✅ ${pkg.name} 已激活！流量${pkg.gb}GB，${pkg.mo}个月`);
     return
   }
@@ -193,7 +194,9 @@ function vc(){
     e.classList.remove('sh');
     document.getElementById('li').value=getSubUrl();
     document.getElementById('pkgDetail').innerHTML='📦 <b>默认套餐</b> · 1000GB · 9个月';
-    document.getElementById('lb2').classList.add('sh');toast('✅ 订阅链接已生成');return
+    document.getElementById('lb2').classList.add('sh');
+    document.getElementById('importBar').style.display='flex';
+    toast('✅ 订阅链接已生成');return
   }
   s.f++;localStorage.setItem('vps',JSON.stringify(s));
   e.textContent='❌ 验证码错误，请联系客服获取';e.classList.add('sh')
