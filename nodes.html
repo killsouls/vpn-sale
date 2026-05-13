@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>闪电网络 · 节点总览</title>
+<style>
+:root{--bg:#0a0a1a;--card:#111133;--text:#e0e0e0;--subtle:#8888aa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.container{max-width:1100px;margin:0 auto;padding:16px}
+h1{text-align:center;font-size:26px;padding:24px 0 8px;background:linear-gradient(135deg,#6c5ce7,#a29bfe);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{text-align:center;color:var(--subtle);font-size:13px;margin-bottom:18px}
+.cards{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.card{background:var(--card);border-radius:12px;padding:16px 24px;text-align:center;border:1px solid rgba(108,92,231,0.2);min-width:90px}
+.card b{font-size:28px;color:#a29bfe;display:block}
+.card s{font-size:11px;color:var(--subtle);display:block;margin-top:2px}
+.table-wrap{overflow-x:auto;border-radius:14px;border:1px solid rgba(255,255,255,0.06)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--card);padding:12px 10px;text-align:left;font-weight:600;color:#6c5ce7;border-bottom:2px solid rgba(108,92,231,0.3);white-space:nowrap;font-size:12px}
+td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.03);white-space:nowrap}
+tr:hover td{background:rgba(108,92,231,0.04)}
+td:nth-child(3){max-width:300px;overflow:hidden;text-overflow:ellipsis}
+code{background:#0a0a1a;padding:2px 8px;border-radius:4px;font-size:11px;color:#a29bfe}
+.b{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:600;color:#fff}
+.b.vmess{background:#6c5ce7}
+.b.trojan{background:#f0932b}
+.tls-o{color:#27ae60;font-size:11px}
+.foot{text-align:center;padding:20px;color:var(--subtle);font-size:11px}
+@media(max-width:600px){td:nth-child(5),th:nth-child(5){display:none};td:nth-child(3),th:nth-child(3){max-width:150px}}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🌐 闪电网络 · 节点总览</h1>
+<p class="sub">共 30 个节点 · 实时解析 · 2026-05-13 22:08</p>
+<div class="cards">
+<div class="card"><b>30</b><s>总节点</s></div>
+<div class="card"><b>6</b><s>VMess</s></div>
+<div class="card"><b>24</b><s>Trojan</s></div>
+<div class="card"><b>808GB</b><s>剩余流量</s></div>
+<div class="card"><b>1Gbps</b><s>带宽</s></div>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>#</th><th>协议</th><th>节点名称</th><th>服务器</th><th>端口</th><th>传输</th></tr></thead>
+<tbody><tr><td>1</td><td><span class='b vmess'>VMess</span></td><td>剩余流量：804.19 GB</td><td><code>6ernu3zmhsv7s95fm.lovebaipiao.net</code></td><td>80</td><td><span class='tls-o'>ws</span></td></tr>
+<tr><td>2</td><td><span class='b vmess'>VMess</span></td><td>距离下次重置剩余：15 天</td><td><code>6ernu3zmhsv7s95fm.lovebaipiao.net</code></td><td>80</td><td><span class='tls-o'>ws</span></td></tr>
+<tr><td>3</td><td><span class='b vmess'>VMess</span></td><td>套餐到期：2027-02-28</td><td><code>6ernu3zmhsv7s95fm.lovebaipiao.net</code></td><td>80</td><td><span class='tls-o'>ws</span></td></tr>
+<tr><td>4</td><td><span class='b vmess'>VMess</span></td><td>过滤掉11条线路</td><td><code>6ernu3zmhsv7s95fm.lovebaipiao.net</code></td><td>80</td><td><span class='tls-o'>ws</span></td></tr>
+<tr><td>5</td><td><span class='b vmess'>VMess</span></td><td>🇺🇸请每月更-新一次订阅</td><td><code>6ernu3zmhsv7s95fm.lovebaipiao.net</code></td><td>80</td><td><span class='tls-o'>ws</span></td></tr>
+<tr><td>6</td><td><span class='b vmess'>VMess</span></td><td>ipv6免流-请自行修改host</td><td><code>6ernu3zmhsv7s95fm.lovebaipiao.net</code></td><td>80</td><td><span class='tls-o'>ws</span></td></tr>
+<tr><td>7</td><td><span class='b trojan'>Trojan</span></td><td>🇯🇵日本Trojan1</td><td><code>jp9y3408.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>8</td><td><span class='b trojan'>Trojan</span></td><td>🇨🇦加拿大trojan1</td><td><code>c321ajeoha.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>9</td><td><span class='b trojan'>Trojan</span></td><td>🇨🇦加拿大trojan2</td><td><code>cajeoha.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>10</td><td><span class='b trojan'>Trojan</span></td><td>🇨🇦加拿大trojan3</td><td><code>141.193.213.60</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>11</td><td><span class='b trojan'>Trojan</span></td><td>🇸🇬新加坡Trojan1</td><td><code>sg083yt.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>12</td><td><span class='b trojan'>Trojan</span></td><td>🇸🇬新加坡Trojan2</td><td><code>666.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>13</td><td><span class='b trojan'>Trojan</span></td><td>🇸🇬新加坡Trojan3</td><td><code>141.193.213.107</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>14</td><td><span class='b trojan'>Trojan</span></td><td>Youtube去广告1</td><td><code>csgo.com</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>15</td><td><span class='b trojan'>Trojan</span></td><td>🇭🇰香港trojan</td><td><code>hkeofhwo3.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>16</td><td><span class='b trojan'>Trojan</span></td><td>🇹🇷土耳其trojan</td><td><code>23.227.38.84</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>17</td><td><span class='b trojan'>Trojan</span></td><td>🇬🇧英国trojan1</td><td><code>23.227.38.43</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>18</td><td><span class='b trojan'>Trojan</span></td><td>🇬🇧英国trojan2</td><td><code>666.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>19</td><td><span class='b trojan'>Trojan</span></td><td>🇬🇧英国trojan3</td><td><code>141.193.213.199</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>20</td><td><span class='b trojan'>Trojan</span></td><td>🇲🇾马来西亚trojan</td><td><code>malaia.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>21</td><td><span class='b trojan'>Trojan</span></td><td>🇮🇸冰岛trojan</td><td><code>bi23aogo.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>22</td><td><span class='b trojan'>Trojan</span></td><td>🇺🇸美国光速1-解锁GPT</td><td><code>111.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>23</td><td><span class='b trojan'>Trojan</span></td><td>🇺🇸美国光速2-解锁台区迪士尼</td><td><code>csgo.com</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>24</td><td><span class='b trojan'>Trojan</span></td><td>🇺🇸美国光速3-解锁台区Netflix</td><td><code>104.19.174.68</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>25</td><td><span class='b trojan'>Trojan</span></td><td>🇺🇸美国光速4</td><td><code>104.19.173.68</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>26</td><td><span class='b trojan'>Trojan</span></td><td>🇺🇸美国光速5</td><td><code>555.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>27</td><td><span class='b trojan'>Trojan</span></td><td>🇺🇸美国光速6</td><td><code>23.227.38.212</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>28</td><td><span class='b trojan'>Trojan</span></td><td>🇺🇸美国光速7</td><td><code>777.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>29</td><td><span class='b trojan'>Trojan</span></td><td>🇺🇸美国光速8</td><td><code>888.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+<tr><td>30</td><td><span class='b trojan'>Trojan</span></td><td>🇺🇸美国光速9</td><td><code>999.cloudflare.182682.xyz</code></td><td>443</td><td><span class='tls-o'>TLS</span></td></tr>
+</tbody>
+</table>
+</div>
+<div class="foot">⚡ 闪电网络 · 数据时间: 2026-05-13 22:08:25</div>
+</div>
+</body>
+</html>

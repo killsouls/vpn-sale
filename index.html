@@ -1,966 +1,301 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚡ 极速网络 - 全球节点加速服务</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>闪电网络 · 全球加速</title>
 <style>
-  :root {
-    --bg: #0a0a1a;
-    --card: #111133;
-    --accent: #6c5ce7;
-    --accent2: #a29bfe;
-    --gold: #f9ca24;
-    --text: #e0e0e0;
-    --subtle: #8888aa;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(108,92,231,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 100%, rgba(162,155,254,0.08) 0%, transparent 60%);
-  }
-  .container {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 20px 16px 40px;
-  }
-
-  /* Header */
-  .header {
-    text-align: center;
-    padding: 30px 0 10px;
-  }
-  .logo {
-    font-size: 48px;
-    display: block;
-    margin-bottom: 8px;
-    animation: float 3s ease-in-out infinite;
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-  .title {
-    font-size: 28px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #6c5ce7, #a29bfe, #f9ca24);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .subtitle {
-    color: var(--subtle);
-    font-size: 14px;
-    margin-top: 4px;
-  }
-
-  /* Stats Banner */
-  .stats {
-    display: flex;
-    gap: 10px;
-    margin: 20px 0;
-  }
-  .stat-card {
-    flex: 1;
-    background: var(--card);
-    border-radius: 16px;
-    padding: 16px 12px;
-    text-align: center;
-    border: 1px solid rgba(108,92,231,0.2);
-  }
-  .stat-num {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--accent2);
-  }
-  .stat-label {
-    font-size: 11px;
-    color: var(--subtle);
-    margin-top: 4px;
-  }
-
-  /* Product Card */
-  .product-card {
-    background: linear-gradient(145deg, #151540, #0d0d30);
-    border-radius: 20px;
-    padding: 28px 20px;
-    border: 2px solid rgba(108,92,231,0.4);
-    position: relative;
-    overflow: hidden;
-  }
-  .product-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(from 0deg, transparent, rgba(108,92,231,0.06), transparent, rgba(249,202,36,0.06), transparent);
-    animation: rotate 8s linear infinite;
-  }
-  @keyframes rotate { 100% { transform: rotate(360deg); } }
-  .product-card > * { position: relative; z-index: 1; }
-  .badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-    color: #fff;
-    font-size: 12px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-  .plan-name {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-  .plan-desc {
-    color: var(--subtle);
-    font-size: 13px;
-    margin-bottom: 16px;
-  }
-  .features {
-    list-style: none;
-    margin-bottom: 20px;
-  }
-  .features li {
-    padding: 8px 0;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .features li .icon { font-size: 18px; width: 24px; text-align: center; }
-  .price-box {
-    text-align: center;
-    padding: 16px 0;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    margin-bottom: 20px;
-  }
-  .price-original {
-    font-size: 14px;
-    color: var(--subtle);
-    text-decoration: line-through;
-  }
-  .price-now {
-    font-size: 42px;
-    font-weight: 800;
-    color: var(--gold);
-    line-height: 1.2;
-  }
-  .price-now small {
-    font-size: 18px;
-    font-weight: 400;
-  }
-
-  /* Buy Button */
-  .btn-buy {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 14px;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-    color: #fff;
-    transition: all 0.3s;
-    letter-spacing: 2px;
-  }
-  .btn-buy:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(108,92,231,0.4);
-  }
-  .btn-buy:active { transform: scale(0.97); }
-
-  /* Nodes Preview */
-  .nodes-section {
-    margin-top: 20px;
-  }
-  .section-title {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .node-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .node-item {
-    background: var(--card);
-    border-radius: 12px;
-    padding: 12px;
-    border: 1px solid rgba(255,255,255,0.05);
-    font-size: 13px;
-  }
-  .node-flag { font-size: 20px; margin-right: 4px; }
-  .node-name { font-weight: 600; }
-  .node-info {
-    font-size: 11px;
-    color: var(--subtle);
-    margin-top: 2px;
-  }
-
-  /* Modal */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: var(--card);
-    border-radius: 20px;
-    padding: 24px;
-    max-width: 420px;
-    width: 100%;
-    border: 1px solid rgba(108,92,231,0.3);
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal h3 {
-    text-align: center;
-    font-size: 20px;
-    margin-bottom: 8px;
-  }
-  .modal-step {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    font-size: 14px;
-  }
-  .step-num {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-  .qr-code {
-    display: block;
-    width: 200px; height: 200px;
-    margin: 16px auto;
-    border-radius: 12px;
-    object-fit: contain;
-    border: 2px solid rgba(255,255,255,0.1);
-  }
-  .qr-placeholder {
-    width: 180px; height: 180px;
-    margin: 16px auto;
-    background: #fff;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    font-size: 13px;
-    text-align: center;
-    border: 2px dashed #ccc;
-    padding: 20px;
-    line-height: 1.6;
-  }
-  .pay-note {
-    text-align: center;
-    font-size: 12px;
-    color: var(--subtle);
-    margin-top: 8px;
-  }
-  .btn-reveal {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    background: linear-gradient(135deg, #f9ca24, #f0932b);
-    color: #1a1a2e;
-    margin-top: 16px;
-    transition: all 0.3s;
-  }
-  .btn-reveal:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(249,202,36,0.3);
-  }
-  .link-box {
-    display: none;
-    margin-top: 16px;
-    background: #0a0a1a;
-    border-radius: 12px;
-    padding: 16px;
-    border: 1px solid rgba(249,202,36,0.3);
-  }
-  .link-box.show { display: block; }
-  .link-box label {
-    font-size: 12px;
-    color: var(--subtle);
-    display: block;
-    margin-bottom: 6px;
-  }
-  .link-input {
-    width: 100%;
-    padding: 10px;
-    background: #000;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px;
-    color: var(--accent2);
-    font-size: 12px;
-    font-family: monospace;
-    word-break: break-all;
-    resize: none;
-  }
-  .btn-copy {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--accent);
-    border-radius: 10px;
-    background: transparent;
-    color: var(--accent2);
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: all 0.2s;
-  }
-  .btn-copy:hover { background: rgba(108,92,231,0.15); }
-  .btn-copy.copied { background: #27ae60; border-color: #27ae60; color: #fff; }
-  .code-input-group {
-    margin: 12px 0;
-  }
-  .code-input {
-    width: 100%;
-    padding: 14px 16px;
-    background: #0a0a1a;
-    border: 2px solid rgba(108,92,231,0.3);
-    border-radius: 12px;
-    color: #fff;
-    font-size: 20px;
-    text-align: center;
-    letter-spacing: 8px;
-    font-family: monospace;
-    outline: none;
-    transition: border-color 0.2s;
-    margin-bottom: 8px;
-  }
-  .code-input:focus { border-color: var(--accent); }
-  .code-input::placeholder {
-    color: rgba(255,255,255,0.15);
-    letter-spacing: 2px;
-    font-size: 14px;
-  }
-  .code-error {
-    display: none;
-    color: #e74c3c;
-    font-size: 13px;
-    text-align: center;
-    margin-bottom: 8px;
-  }
-  .code-error.show { display: block; }
-  .code-hint {
-    text-align: center;
-    font-size: 12px;
-    color: var(--subtle);
-    margin-top: 4px;
-  }
-  .close-modal {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.05);
-    color: var(--subtle);
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 12px;
-  }
-
-  /* Footer */
-  .footer {
-    text-align: center;
-    padding: 30px 0 10px;
-    color: var(--subtle);
-    font-size: 12px;
-  }
-  .footer a { color: var(--accent2); text-decoration: none; }
-
-  /* Toast */
-  .toast {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #27ae60;
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-size: 14px;
-    font-weight: 600;
-    z-index: 200;
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
-  }
-  .toast.show { opacity: 1; }
-
-  /* Protocol badges */
-  .protocol-badges {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: 12px 0;
-  }
-  .protocol-badge {
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 12px;
-    background: rgba(108,92,231,0.2);
-    color: var(--accent2);
-    border: 1px solid rgba(108,92,231,0.3);
-  }
-
-  /* Admin */
-  .admin-trigger {
-    text-align: center;
-    padding: 10px;
-  }
-  .admin-trigger a {
-    color: var(--subtle);
-    font-size: 12px;
-    text-decoration: none;
-  }
-  .admin-trigger a:hover { color: var(--gold); }
-  .admin-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.9);
-    z-index: 300;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  .admin-overlay.active { display: flex; }
-  .admin-panel {
-    background: var(--card);
-    border-radius: 20px;
-    padding: 24px;
-    max-width: 420px;
-    width: 100%;
-    border: 2px solid var(--gold);
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .admin-panel h3 {
-    text-align: center;
-    font-size: 20px;
-    margin-bottom: 16px;
-    color: var(--gold);
-  }
-  .admin-section {
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  .admin-section:last-child { border-bottom: none; }
-  .admin-label {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--accent2);
-  }
-  .admin-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .admin-input {
-    flex: 1;
-    padding: 10px 14px;
-    background: #0a0a1a;
-    border: 2px solid rgba(108,92,231,0.3);
-    border-radius: 10px;
-    color: #fff;
-    font-size: 16px;
-    text-align: center;
-    font-family: monospace;
-    outline: none;
-  }
-  .admin-input:focus { border-color: var(--accent); }
-  .admin-btn {
-    padding: 10px 16px;
-    border: none;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .admin-btn.save {
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
-    color: #fff;
-  }
-  .admin-btn.reset {
-    background: rgba(231,76,60,0.2);
-    color: #e74c3c;
-    border: 1px solid rgba(231,76,60,0.3);
-  }
-  .admin-stat {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    font-size: 14px;
-  }
-  .admin-stat .val {
-    font-weight: 700;
-    color: var(--accent2);
-  }
-  .admin-login {
-    text-align: center;
-  }
-  .admin-login input {
-    width: 100%;
-    padding: 14px;
-    background: #0a0a1a;
-    border: 2px solid rgba(108,92,231,0.3);
-    border-radius: 12px;
-    color: #fff;
-    font-size: 18px;
-    text-align: center;
-    margin-bottom: 10px;
-    outline: none;
-  }
-  .admin-login .admin-btn {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    background: var(--gold);
-    color: #1a1a2e;
-  }
-  .admin-back {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    background: rgba(255,255,255,0.05);
-    color: var(--subtle);
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 12px;
-  }
-
-  /* Mobile optimization */
-  @media (max-width: 360px) {
-    .stat-num { font-size: 20px; }
-    .price-now { font-size: 34px; }
-    .node-list { grid-template-columns: 1fr; }
-  }
+:root{--bg:#060614;--c:#0e0e28;--a:#7c3aed;--g:#f59e0b;--t:#e2e8f0;--s:#94a3b8;--gr:#10b981}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
+.w{max-width:900px;margin:0 auto;padding:16px}
+.h{text-align:center;padding:36px 0 20px}
+.h span{font-size:52px;display:block}
+.h h1{font-size:30px;font-weight:800;background:linear-gradient(135deg,#7c3aed,#a78bfa,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:6px 0}
+.h p{color:var(--s);font-size:14px}
+.sb{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0 20px}
+.sb>div{border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:12px 18px;text-align:center;min-width:80px}
+.sb b{font-size:22px;color:#a78bfa;display:block}
+.sb i{font-size:11px;color:var(--s);font-style:normal}
+.ib{background:var(--c);border-radius:14px;padding:16px 20px;margin-bottom:20px;border:1px solid rgba(124,58,237,.3);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ib .lb{font-weight:700;color:#a78bfa;font-size:14px;white-space:nowrap}
+.ib .ub{flex:1;min-width:200px;display:flex;gap:6px}
+.ib input{flex:1;padding:10px 12px;background:#060614;border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#a78bfa;font-size:12px;font-family:monospace;outline:none}
+.bt{display:inline-flex;align-items:center;gap:4px;padding:10px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.bt-p{background:var(--a);color:#fff}.bt-p:hover{opacity:.9;transform:translateY(-1px)}
+.bt-g{background:var(--g);color:#1a1a2e}.bt-g:hover{opacity:.9;transform:translateY(-1px)}
+.bt-o{background:transparent;border:1px solid rgba(255,255,255,.15);color:var(--t)}.bt-o:hover{background:rgba(255,255,255,.05)}
+.ibtns{display:flex;gap:6px;flex-wrap:wrap}
+.st{font-size:18px;font-weight:700;margin:24px 0 14px;display:flex;align-items:center;gap:8px}
+.st::after{content:'';flex:1;height:1px;background:rgba(124,58,237,.2)}
+.cc{background:var(--c);border-radius:14px;margin-bottom:10px;overflow:hidden;border:1px solid rgba(255,255,255,.04)}
+.ch{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(124,58,237,.08);border-bottom:1px solid rgba(255,255,255,.03)}
+.cf{font-size:22px}.cn{font-weight:700;font-size:15px}
+.ct{font-size:12px;color:var(--s);margin-left:auto;background:rgba(124,58,237,.15);padding:2px 10px;border-radius:10px}
+.nl{padding:4px}
+.nr{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.02);font-size:13px}
+.nr:last-child{border-bottom:none}.nr:hover{background:rgba(124,58,237,.03)}
+.nn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+.nr code{font-size:11px;color:var(--s);background:rgba(0,0,0,.2);padding:2px 8px;border-radius:4px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bc{background:transparent;border:1px solid rgba(255,255,255,.08);color:var(--s);padding:4px 8px;border-radius:6px;cursor:pointer;font-size:14px;transition:.2s}
+.bc:hover{background:var(--a);color:#fff;border-color:var(--a)}
+.by{background:linear-gradient(145deg,#1a1040,#0e0e28);border-radius:18px;padding:28px;text-align:center;margin:24px 0;border:2px solid rgba(124,58,237,.3)}
+.by h3{font-size:22px;margin-bottom:6px}
+.by .pr{font-size:48px;font-weight:800;color:var(--g);margin:16px 0 4px}
+.by .pr small{font-size:22px}
+.by .og{text-decoration:line-through;color:var(--s);font-size:14px}
+.by ul{list-style:none;margin:16px 0;display:inline-block;text-align:left}
+.by ul li{padding:6px 0;font-size:14px}
+.bb{display:block;width:100%;max-width:300px;margin:16px auto 0;padding:16px;border:none;border-radius:14px;font-size:18px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;letter-spacing:2px;transition:.3s}
+.bb:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,.3)}
+.ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.9);z-index:100;align-items:center;justify-content:center;padding:20px}
+.ov.ac{display:flex}
+.md{background:var(--c);border-radius:18px;padding:24px;max-width:420px;width:100%;border:1px solid rgba(124,58,237,.3);max-height:90vh;overflow-y:auto}
+.md h3{text-align:center;margin-bottom:12px;font-size:18px}
+.qr{display:block;width:200px;height:200px;margin:12px auto;border-radius:12px;object-fit:contain;border:2px solid rgba(255,255,255,.1)}
+.ci{width:100%;padding:14px;background:#060614;border:2px solid rgba(124,58,237,.3);border-radius:10px;color:#fff;font-size:20px;text-align:center;letter-spacing:6px;font-family:monospace;outline:none;margin:10px 0}
+.ci:focus{border-color:var(--a)}
+.ce{display:none;color:#ef4444;font-size:13px;text-align:center;margin:6px 0}
+.ce.sh{display:block}
+.lb2{display:none;margin-top:12px;background:#060614;border-radius:10px;padding:14px;border:1px solid rgba(245,158,11,.3)}
+.lb2.sh{display:block}
+.lb2 textarea{width:100%;background:#000;border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#a78bfa;font-size:11px;padding:8px;font-family:monospace;resize:none;word-break:break-all}
+.cls{display:block;width:100%;padding:10px;border:none;border-radius:8px;background:rgba(255,255,255,.05);color:var(--s);font-size:14px;cursor:pointer;margin-top:10px}
+.ts{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--gr);color:#fff;padding:12px 24px;border-radius:24px;font-size:14px;font-weight:600;z-index:200;opacity:0;transition:.3s;pointer-events:none}
+.ts.sh{opacity:1}
+.ft{text-align:center;padding:30px 0;color:var(--s);font-size:12px}
+.al{color:rgba(255,255,255,.06);font-size:11px;cursor:pointer}.al:hover{color:var(--s)}
+.acm{margin:8px 0;padding:8px;background:rgba(0,0,0,.2);border-radius:8px;font-size:12px}
+.acm .row{display:flex;gap:6px;align-items:center;margin:4px 0}
+.acm input{flex:1;padding:6px 8px;background:#060614;border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#fff;font-size:12px;outline:none}
+.acm select{background:#060614;border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#fff;padding:6px 8px;font-size:12px}
+.del-btn{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#ef4444;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:11px}
+.pkgs{margin:8px 0;max-height:160px;overflow-y:auto}
+.pkg-row{display:flex;justify-content:space-between;align-items:center;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px}
+.pkg-row:last-child{border:none}
+@media(max-width:480px){.h h1{font-size:24px}.sb>div{padding:10px 14px}.sb b{font-size:18px}.ib{flex-direction:column;align-items:stretch}.nr code{display:none}.by .pr{font-size:38px}}
 </style>
 </head>
 <body>
+<div class="w">
+<div class="h"><span>⚡</span><h1>闪电网络</h1><p>全球高速专线 · 多协议支持 · 一键导入</p></div>
+<div class="sb"><div><b>24</b><i>全球节点</i></div><div><b>10</b><i>覆盖地区</i></div><div><b>1Gbps</b><i>峰值带宽</i></div><div><b>808GB</b><i>剩余流量</i></div></div>
 
-<div class="container">
+<!-- 一键导入 -->
+<div class="ib"><span class="lb">🔗 一键订阅导入</span><div class="ub"><input id="su" value="https://dy11.baipiaoyes.com/api/v1/client/subscribe?token=83e15542743a538f2ef4c8ae4c656005" readonly><button class="bt bt-p" onclick="copyT('https://dy11.baipiaoyes.com/api/v1/client/subscribe?token=83e15542743a538f2ef4c8ae4c656005')">📋 复制</button></div><div class="ibtns"><button class="bt bt-o" onclick="openG('clash')">🟣 Clash</button><button class="bt bt-o" onclick="openG('sr')">📱 小火箭</button><button class="bt bt-o" onclick="openG('v2ray')">💻 V2Ray</button><button class="bt bt-o" onclick="openG('surge')">🌊 Surge</button></div></div>
 
-  <!-- Header -->
-  <div class="header">
-    <span class="logo">🌐</span>
-    <div class="title">闪电网络</div>
-    <div class="subtitle">全球高速节点 · 稳定畅联</div>
-  </div>
+<!-- 节点分布 -->
+<div class="st">🌍 节点分布</div>
 
-  <!-- Stats -->
-  <div class="stats">
-    <div class="stat-card">
-      <div class="stat-num">50+</div>
-      <div class="stat-label">全球节点</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">1Gbps</div>
-      <div class="stat-label">峰值带宽</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num">99.9%</div>
-      <div class="stat-label">在线率</div>
-    </div>
-  </div>
+<!-- 美国 9节点 -->
+<div class="cc"><div class="ch"><span class="cf">🇺🇸</span><span class="cn">美国</span><span class="ct">9 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🇺🇸 美国 01 · 解锁GPT</span><code>111.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('美国-LA-GPT')">📋</button></div>
+<div class="nr"><span class="nn">🇺🇸 美国 02 · 解锁迪士尼+</span><code>csgo.com</code><button class="bc" onclick="copyT('美国-迪士尼')">📋</button></div>
+<div class="nr"><span class="nn">🇺🇸 美国 03 · 解锁Netflix</span><code>104.19.174.68</code><button class="bc" onclick="copyT('美国-Netflix')">📋</button></div>
+<div class="nr"><span class="nn">🇺🇸 美国 04 · New York</span><code>104.19.173.68</code><button class="bc" onclick="copyT('美国-NY')">📋</button></div>
+<div class="nr"><span class="nn">🇺🇸 美国 05 · Chicago</span><code>555.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('美国-CHI')">📋</button></div>
+<div class="nr"><span class="nn">🇺🇸 美国 06 · 高速专线</span><code>23.227.38.212</code><button class="bc" onclick="copyT('美国-06')">📋</button></div>
+<div class="nr"><span class="nn">🇺🇸 美国 07 · 高速专线</span><code>777.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('美国-07')">📋</button></div>
+<div class="nr"><span class="nn">🇺🇸 美国 08 · 高速专线</span><code>888.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('美国-08')">📋</button></div>
+<div class="nr"><span class="nn">🇺🇸 美国 09 · 高速专线</span><code>999.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('美国-09')">📋</button></div>
+</div></div>
 
-  <!-- Product Card -->
-  <div class="product-card">
-    <span class="badge">🔥 限时特惠</span>
-    <div class="plan-name">🌏 全球畅联套餐</div>
-    <div class="plan-desc">高速专线 · 无限设备 · 多协议支持</div>
+<!-- 加拿大 3节点 -->
+<div class="cc"><div class="ch"><span class="cf">🇨🇦</span><span class="cn">加拿大</span><span class="ct">3 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🇨🇦 加拿大 01 · Toronto</span><code>c321ajeoha.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('加拿大-01')">📋</button></div>
+<div class="nr"><span class="nn">🇨🇦 加拿大 02 · Vancouver</span><code>cajeoha.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('加拿大-02')">📋</button></div>
+<div class="nr"><span class="nn">🇨🇦 加拿大 03 · Montreal</span><code>141.193.213.60</code><button class="bc" onclick="copyT('加拿大-03')">📋</button></div>
+</div></div>
 
-    <ul class="features">
-      <li>
-        <span class="icon">📦</span>
-        <span><strong>1000GB</strong> 超大流量</span>
-      </li>
-      <li>
-        <span class="icon">⏰</span>
-        <span>有效期 <strong>9个月</strong></span>
-      </li>
-      <li>
-        <span class="icon">📱</span>
-        <span>全平台通用（iOS/Android/Win/Mac）</span>
-      </li>
-      <li>
-        <span class="icon">🔗</span>
-        <span>一键导入，无需复杂配置</span>
-      </li>
-      <li>
-        <span class="icon">🔄</span>
-        <span>节点自动更新</span>
-      </li>
-      <li>
-        <span class="icon">🛡️</span>
-        <span>端到端加密传输</span>
-      </li>
-    </ul>
+<!-- 新加坡 3节点 -->
+<div class="cc"><div class="ch"><span class="cf">🇸🇬</span><span class="cn">新加坡</span><span class="ct">3 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🇸🇬 新加坡 01</span><code>sg083yt.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('新加坡-01')">📋</button></div>
+<div class="nr"><span class="nn">🇸🇬 新加坡 02</span><code>666.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('新加坡-02')">📋</button></div>
+<div class="nr"><span class="nn">🇸🇬 新加坡 03</span><code>141.193.213.107</code><button class="bc" onclick="copyT('新加坡-03')">📋</button></div>
+</div></div>
 
-    <div class="protocol-badges">
-      <span class="protocol-badge">V2Ray</span>
-      <span class="protocol-badge">VMess</span>
-      <span class="protocol-badge">Trojan</span>
-      <span class="protocol-badge">Shadowsocks</span>
-      <span class="protocol-badge">Clash</span>
-    </div>
+<!-- 英国 3节点 -->
+<div class="cc"><div class="ch"><span class="cf">🇬🇧</span><span class="cn">英国</span><span class="ct">3 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🇬🇧 英国 01 · London</span><code>23.227.38.43</code><button class="bc" onclick="copyT('英国-01')">📋</button></div>
+<div class="nr"><span class="nn">🇬🇧 英国 02 · Manchester</span><code>666.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('英国-02')">📋</button></div>
+<div class="nr"><span class="nn">🇬🇧 英国 03 · Edinburgh</span><code>141.193.213.199</code><button class="bc" onclick="copyT('英国-03')">📋</button></div>
+</div></div>
 
-    <div class="price-box">
-      <div class="price-original">原价 ¥199</div>
-      <div class="price-now"><small>¥</small>50</div>
-    </div>
+<!-- 日本 1节点 -->
+<div class="cc"><div class="ch"><span class="cf">🇯🇵</span><span class="cn">日本</span><span class="ct">1 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🇯🇵 日本 Tokyo</span><code>jp9y3408.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('日本-Tokyo')">📋</button></div>
+</div></div>
 
-    <button class="btn-buy" onclick="openModal()">💳 立即购买</button>
-  </div>
+<!-- 香港 1节点 -->
+<div class="cc"><div class="ch"><span class="cf">🇭🇰</span><span class="cn">中国香港</span><span class="ct">1 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🇭🇰 香港 HK 01</span><code>hkeofhwo3.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('香港-01')">📋</button></div>
+</div></div>
 
-  <!-- Node Preview -->
-  <div class="nodes-section">
-    <div class="section-title">🌍 部分节点预览</div>
-    <div class="node-list">
-      <div class="node-item">
-        <div class="node-name"><span class="node-flag">🇯🇵</span> 日本东京</div>
-        <div class="node-info">延迟 40ms · 1Gbps</div>
-      </div>
-      <div class="node-item">
-        <div class="node-name"><span class="node-flag">🇸🇬</span> 新加坡</div>
-        <div class="node-info">延迟 60ms · 1Gbps</div>
-      </div>
-      <div class="node-item">
-        <div class="node-name"><span class="node-flag">🇺🇸</span> 美国洛杉矶</div>
-        <div class="node-info">延迟 160ms · 1Gbps</div>
-      </div>
-      <div class="node-item">
-        <div class="node-name"><span class="node-flag">🇭🇰</span> 中国香港</div>
-        <div class="node-info">延迟 30ms · 1Gbps</div>
-      </div>
-      <div class="node-item">
-        <div class="node-name"><span class="node-flag">🇰🇷</span> 韩国首尔</div>
-        <div class="node-info">延迟 50ms · 1Gbps</div>
-      </div>
-      <div class="node-item">
-        <div class="node-name"><span class="node-flag">🇹🇼</span> 中国台湾</div>
-        <div class="node-info">延迟 35ms · 1Gbps</div>
-      </div>
-    </div>
-  </div>
+<!-- 土耳其 1节点 -->
+<div class="cc"><div class="ch"><span class="cf">🇹🇷</span><span class="cn">土耳其</span><span class="ct">1 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🇹🇷 土耳其 Istanbul</span><code>23.227.38.84</code><button class="bc" onclick="copyT('土耳其-01')">📋</button></div>
+</div></div>
 
-  <!-- Footer -->
-  <div class="footer">
-    <p>支持 Clash / Shadowrocket / V2rayN / Surge 等主流客户端</p>
-    <p style="margin-top:4px;">购买后联系客服获取订阅链接 · 24小时在线</p>
-    <div class="admin-trigger"><a href="javascript:void(0)" onclick="openAdmin()">⚙️ 管理员入口</a></div>
-  </div>
+<!-- 马来西亚 1节点 -->
+<div class="cc"><div class="ch"><span class="cf">🇲🇾</span><span class="cn">马来西亚</span><span class="ct">1 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🇲🇾 马来西亚 KL</span><code>malaia.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('马来西亚-01')">📋</button></div>
+</div></div>
+
+<!-- 冰岛 1节点 -->
+<div class="cc"><div class="ch"><span class="cf">🇮🇸</span><span class="cn">冰岛</span><span class="ct">1 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🇮🇸 冰岛 Reykjavik</span><code>bi23aogo.cloudflare.182682.xyz</code><button class="bc" onclick="copyT('冰岛-01')">📋</button></div>
+</div></div>
+
+<!-- 流媒体 1节点 -->
+<div class="cc"><div class="ch"><span class="cf">🎬</span><span class="cn">流媒体专线</span><span class="ct">1 节点</span></div><div class="nl">
+<div class="nr"><span class="nn">🎬 Youtube 去广告专线</span><code>csgo.com</code><button class="bc" onclick="copyT('Youtube去广告')">📋</button></div>
+</div></div>
+
+<!-- 购买区域 -->
+<div class="by" id="buy"><h3>🔥 限时特惠</h3><p id="pkgInfo">1000GB · 9个月 · 全平台通用</p><div class="og">原价 ¥199</div><div class="pr"><small>¥</small><span id="pkgPrice">50</span></div><ul><li>✅ 全平台通用（iOS/Android/Win/Mac）</li><li>✅ 一键订阅导入，无需手动配置</li><li>✅ 节点每日自动更新</li><li>✅ Clash / Shadowrocket / V2Ray / Surge</li></ul><button class="bb" onclick="openBuy()">💳 立即购买</button></div>
+
+<div class="ft"><p>Clash · Shadowrocket · V2RayN · Surge 全客户端支持</p><span class="al" onclick="openAdm()">⚙️</span></div>
 </div>
 
-<!-- Admin Panel -->
-<div class="admin-overlay" id="adminOverlay">
-  <div class="admin-panel" id="adminPanel">
-    <!-- Login View -->
-    <div id="adminLogin">
-      <h3>🔐 管理员登录</h3>
-      <div class="admin-login">
-        <input type="password" id="adminPwd" placeholder="请输入管理密码" autocomplete="off">
-        <button class="admin-btn" onclick="adminLogin()">登录</button>
-      </div>
-      <button class="admin-back" onclick="closeAdmin()">关闭</button>
-    </div>
-    <!-- Dashboard View (hidden by default) -->
-    <div id="adminDashboard" style="display:none">
-      <h3>⚙️ 管理员后台</h3>
-      
-      <div class="admin-section">
-        <div class="admin-label">🔑 修改验证码</div>
-        <div class="admin-row">
-          <input type="text" class="admin-input" id="adminCode" maxlength="6" placeholder="6位数字">
-          <button class="admin-btn save" onclick="saveCode()">💾 保存</button>
-        </div>
-      </div>
-
-      <div class="admin-section">
-        <div class="admin-label">📊 使用统计</div>
-        <div class="admin-stat">
-          <span>验证尝试次数</span>
-          <span class="val" id="statTotal">0</span>
-        </div>
-        <div class="admin-stat">
-          <span>验证成功次数</span>
-          <span class="val" id="statSuccess">0</span>
-        </div>
-        <div class="admin-stat">
-          <span>验证失败次数</span>
-          <span class="val" id="statFail">0</span>
-        </div>
-        <div class="admin-stat">
-          <span>当前验证码</span>
-          <span class="val" id="statCode">---</span>
-        </div>
-        <button class="admin-btn reset" onclick="resetStats()">🔄 重置统计</button>
-      </div>
-
-      <button class="admin-back" onclick="closeAdmin()">关闭后台</button>
-    </div>
-  </div>
+<!-- 购买弹窗 -->
+<div class="ov" id="bo"><div class="md"><h3>🛒 购买流程</h3>
+<p style="text-align:center;font-size:14px">① 支付宝扫码支付 <strong>¥<span id="mp">50</span></strong></p>
+<img class="qr" src="qr.png" alt="收款码" onerror="this.style.display='none'">
+<p style="text-align:center;font-size:12px;color:var(--s);margin-top:4px">② 支付后联系客服获取验证码</p>
+<input class="ci" id="ci" placeholder="输入6位验证码" maxlength="6" autocomplete="off">
+<div class="ce" id="ce">❌ 验证码错误</div>
+<button class="bt bt-g" style="width:100%;padding:14px;margin-top:6px" onclick="vc()">✅ 验证并获取订阅</button>
+<div class="lb2" id="lb2">
+<label style="font-size:12px;color:var(--s)">📋 您的专属订阅链接</label>
+<textarea id="li" readonly rows="2"></textarea>
+<div id="pkgDetail" style="margin-top:8px;font-size:13px;color:#a78bfa;text-align:center"></div>
+<button class="bt bt-p" style="width:100%;margin-top:6px" onclick="copyT(document.getElementById('li').value)">📋 复制订阅链接</button>
 </div>
+<button class="cls" onclick="closeBuy()">关闭</button></div></div>
 
-<!-- Purchase Modal -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <h3>🛒 购买流程</h3>
+<!-- 导入教程弹窗 -->
+<div class="ov" id="go"><div class="md"><h3 id="gt">📱 导入教程</h3><div id="gc"></div><button class="cls" onclick="closeG()">关闭</button></div></div>
 
-    <div class="modal-step">
-      <div class="step-num">1</div>
-      <div>打开支付宝扫描下方二维码支付 <strong>¥50</strong></div>
-    </div>
-    <img class="qr-code" src="qr.png" alt="收款码" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-    <div class="qr-placeholder" style="display:none">
-      ⚠️ 请将收款码截图<br>保存为 qr.png<br>放到本文件夹
-    </div>
-    <div class="pay-note">
-      支持支付宝扫码支付
-    </div>
+<!-- 管理员后台 -->
+<div class="ov" id="ao"><div class="md">
+<div id="al"><h3>🔐 管理员登录</h3><input type="password" class="ci" id="ap" placeholder="管理密码" style="letter-spacing:2px;font-size:16px"><button class="bt bt-g" style="width:100%;padding:14px" onclick="al()">登录</button><button class="cls" onclick="closeAdm()">关闭</button></div>
+<div id="ad" style="display:none"><h3>⚙️ 终端管理</h3>
 
-    <div class="modal-step">
-      <div class="step-num">2</div>
-      <div>支付完成后联系客服获取验证码</div>
-    </div>
+<div style="margin:10px 0 6px"><b>🔗 订阅地址</b> <span style="font-size:11px;color:var(--s)">在此粘贴新的订阅链接，全局生效</span></div>
+<div style="display:flex;gap:6px;margin-bottom:12px"><input id="subUrlInput" style="flex:1;padding:8px 10px;background:#060614;border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#a78bfa;font-size:11px;font-family:monospace;outline:none" placeholder="粘贴新的订阅链接"><button class="bt bt-p" onclick="saveSubUrl()" style="padding:8px 14px;font-size:12px">💾 保存</button></div>
 
-    <div class="code-input-group">
-      <input type="text" class="code-input" id="codeInput" placeholder="请输入6位验证码" maxlength="6" autocomplete="off">
-      <button class="btn-reveal" onclick="revealLink()">✅ 验证并获取订阅链接</button>
-    </div>
-    <div class="code-error" id="codeError">❌ 验证码错误，请联系客服获取</div>
-
-    <div class="link-box" id="linkBox">
-      <label>📋 订阅链接（复制到客户端即可使用）</label>
-      <textarea class="link-input" id="linkInput" readonly rows="2"></textarea>
-      <button class="btn-copy" id="btnCopy" onclick="copyLink()">📋 复制链接</button>
-    </div>
-
-    <button class="close-modal" onclick="closeModal()">关闭</button>
-  </div>
+<div style="margin:10px 0"><b>📦 套餐管理</b> <span style="font-size:11px;color:var(--s)">自定义流量、时长、价格</span></div>
+<div class="acm">
+<div class="row"><input id="pkName" placeholder="套餐名称 如: 基础版"><input id="pkGB" placeholder="流量(GB)" style="max-width:70px"><select id="pkMo"><option value="1">1个月</option><option value="3">3个月</option><option value="6">6个月</option><option value="9" selected>9个月</option><option value="12">12个月</option></select></div>
+<div class="row"><input id="pkPrice" placeholder="价格 如: 50"><input id="pkCode" placeholder="验证码(6位)" maxlength="6" style="max-width:100px"><button class="bt bt-p" onclick="addPkg()" style="padding:6px 12px;font-size:12px">➕ 添加套餐</button></div>
 </div>
+<div class="pkgs" id="pkgs"></div>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
+<div style="margin:12px 0 8px"><b>📊 销售统计</b></div>
+<div style="font-size:13px"><div>验证尝试: <b id="st" style="color:#a78bfa">0</b></div><div>成功: <b id="ss" style="color:#10b981">0</b></div><div>失败: <b id="sf" style="color:#ef4444">0</b></div></div>
+<button class="bt" style="width:100%;background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2);margin:10px 0;padding:8px" onclick="rs()">🔄 重置统计</button>
+<button class="cls" onclick="closeAdm()">关闭后台</button></div></div></div>
+
+<div class="ts" id="ts"></div>
 
 <script>
-// Subscription link - base64 encoded for protection
-const SUB_LINK = "aHR0cHM6Ly9keTExLmJhaXBpYW95ZXMuY29tL2FwaS92MS9jbGllbnQvc3Vic2NyaWJlP3Rva2VuPTgzZTE1NTQyNzQzYTUzOGYyZWY0YzhhZTRjNjU2MDA1";
+const SUB="https://dy11.baipiaoyes.com/api/v1/client/subscribe?token=83e15542743a538f2ef4c8ae4c656005";
+const ADMPW="Ff666888";
+let adin=false;
 
-// ==========================================
-// ⚙️ 默认验证码（管理员可在后台修改）
-// ==========================================
-const DEFAULT_CODE = "888888";
-const ADMIN_PASSWORD = "Ff666888";
+function getPkgs(){try{return JSON.parse(localStorage.getItem('vpp')||'[]')}catch(e){return[]}}
+function savePkgs(p){localStorage.setItem('vpp',JSON.stringify(p))}
 
-// Get verification code (from localStorage or default)
-function getCode() {
-  return localStorage.getItem('vpn_code') || DEFAULT_CODE;
+function addPkg(){
+  const n=document.getElementById('pkName').value.trim();
+  const gb=document.getElementById('pkGB').value.trim();
+  const mo=document.getElementById('pkMo').value;
+  const pr=document.getElementById('pkPrice').value.trim();
+  const cd=document.getElementById('pkCode').value.trim();
+  if(!n||!gb||!pr||!cd||cd.length<4){toast('⚠️ 请填写完整信息');return}
+  let pkgs=getPkgs();
+  if(pkgs.find(p=>p.code===cd)){toast('⚠️ 验证码已被使用');return}
+  pkgs.push({name:n,gb:Number(gb),mo:Number(mo),price:Number(pr),code:cd,uses:0});
+  savePkgs(pkgs);
+  ['pkName','pkGB','pkPrice','pkCode'].forEach(id=>document.getElementById(id).value='');
+  renderPkgs();toast('✅ 套餐添加成功')
 }
 
-// Stats
-function getStats() {
-  try { return JSON.parse(localStorage.getItem('vpn_stats')) || { total:0, success:0, fail:0 }; }
-  catch(e) { return { total:0, success:0, fail:0 }; }
-}
-function saveStats(s) {
-  localStorage.setItem('vpn_stats', JSON.stringify(s));
-}
+function delPkg(code){if(!confirm('删除此套餐？'))return;savePkgs(getPkgs().filter(p=>p.code!==code));renderPkgs();toast('✅ 已删除')}
 
-// ── Purchase Modal ──
-function openModal() {
-  document.getElementById('modal').classList.add('active');
-  document.getElementById('codeError').classList.remove('show');
-  document.getElementById('codeInput').value = '';
-  document.getElementById('linkBox').classList.remove('show');
+function renderPkgs(){
+  const pkgs=getPkgs(),el=document.getElementById('pkgs');
+  if(!pkgs.length){el.innerHTML='<div style="color:var(--s);font-size:12px;text-align:center;padding:8px">暂无套餐<br>添加套餐后显示在这里</div>';return}
+  el.innerHTML=pkgs.map(p=>`<div class="pkg-row"><span>📦 ${p.name} | ${p.gb}GB/${p.mo}月 | ¥${p.price} | 码:<b style="color:#f59e0b">${p.code}</b></span><div style="display:flex;align-items:center;gap:4px"><span style="font-size:10px;color:var(--s)">已售${p.uses||0}</span><button class="del-btn" onclick="delPkg('${p.code}')">✕</button></div></div>`).join('')
 }
 
-function closeModal() {
-  document.getElementById('modal').classList.remove('active');
+function openBuy(){
+  document.getElementById('bo').classList.add('ac');
+  document.getElementById('ci').value='';document.getElementById('ce').classList.remove('sh');
+  document.getElementById('lb2').classList.remove('sh');
+  document.getElementById('mp').textContent='50';document.getElementById('pkgPrice').textContent='50';
+  document.getElementById('pkgInfo').textContent='1000GB · 9个月 · 全平台通用';document.getElementById('pkgDetail').textContent=''
 }
+function closeBuy(){document.getElementById('bo').classList.remove('ac')}
 
-function revealLink() {
-  const codeInput = document.getElementById('codeInput');
-  const codeError = document.getElementById('codeError');
-  const linkBox = document.getElementById('linkBox');
-  const linkInput = document.getElementById('linkInput');
-
-  const entered = codeInput.value.trim();
-  const stats = getStats();
-  stats.total++;
-
-  if (!entered) {
-    stats.fail++;
-    saveStats(stats);
-    codeError.textContent = '⚠️ 请输入验证码';
-    codeError.classList.add('show');
-    return;
+function vc(){
+  const v=document.getElementById('ci').value.trim(),e=document.getElementById('ce');
+  if(!v){e.textContent='⚠️ 请输入验证码';e.classList.add('sh');return}
+  let s=JSON.parse(localStorage.getItem('vps')||'{"t":0,"s":0,"f":0}');s.t++;
+  // Check custom packages
+  const pkgs=getPkgs(),pkg=pkgs.find(p=>p.code===v);
+  if(pkg){
+    s.s++;localStorage.setItem('vps',JSON.stringify(s));
+    pkg.uses=(pkg.uses||0)+1;savePkgs(pkgs);
+    e.classList.remove('sh');
+    document.getElementById('li').value=getSubUrl();
+    const exp=new Date(Date.now()+pkg.mo*30*86400000).toLocaleDateString('zh-CN');
+    document.getElementById('pkgDetail').innerHTML=`📦 <b>${pkg.name}</b> · ${pkg.gb}GB · ${pkg.mo}个月 · 到期: ${exp}`;
+    document.getElementById('lb2').classList.add('sh');
+    toast(`✅ ${pkg.name} 已激活！流量${pkg.gb}GB，${pkg.mo}个月`);
+    return
   }
-
-  if (entered !== getCode()) {
-    stats.fail++;
-    saveStats(stats);
-    codeError.textContent = '❌ 验证码错误，请联系客服获取';
-    codeError.classList.add('show');
-    codeInput.value = '';
-    codeInput.focus();
-    return;
+  // Fallback to default code
+  if(v===(localStorage.getItem('vpc')||'888888')){
+    s.s++;localStorage.setItem('vps',JSON.stringify(s));
+    e.classList.remove('sh');
+    document.getElementById('li').value=getSubUrl();
+    document.getElementById('pkgDetail').innerHTML='📦 <b>默认套餐</b> · 1000GB · 9个月';
+    document.getElementById('lb2').classList.add('sh');toast('✅ 订阅链接已生成');return
   }
-
-  // Correct code
-  stats.success++;
-  saveStats(stats);
-  codeError.classList.remove('show');
-  linkInput.value = atob(SUB_LINK);
-  linkBox.classList.add('show');
-  showToast('✅ 订阅链接已生成，请复制使用！');
+  s.f++;localStorage.setItem('vps',JSON.stringify(s));
+  e.textContent='❌ 验证码错误，请联系客服获取';e.classList.add('sh')
 }
 
-function copyLink() {
-  const linkInput = document.getElementById('linkInput');
-  const btnCopy = document.getElementById('btnCopy');
-  linkInput.select();
-  document.execCommand('copy');
-  navigator.clipboard?.writeText(linkInput.value);
-  btnCopy.textContent = '✅ 已复制！';
-  btnCopy.classList.add('copied');
-  setTimeout(() => {
-    btnCopy.textContent = '📋 复制链接';
-    btnCopy.classList.remove('copied');
-  }, 2000);
-  showToast('📋 链接已复制到剪贴板！');
+function openG(t){
+  const g={
+    clash:{t:'🟣 Clash 一键导入',c:'<p>1. 打开 Clash Verge / Clash for Windows</p><p>2. 点击「配置」→「导入」</p><p>3. 粘贴订阅链接，下载配置</p><p>4. 开启系统代理</p><p style="margin-top:8px;color:var(--s)">支持: Clash Verge / ClashX / CFW / Clash for Android</p>'},
+    sr:{t:'📱 Shadowrocket 一键导入',c:'<p>1. 打开 Shadowrocket（小火箭）</p><p>2. 点击右上角 + → 类型选 Subscribe</p><p>3. 粘贴订阅链接，点完成</p><p>4. 返回首页，选择节点连接</p><p style="margin-top:8px;color:var(--s)">仅支持 iOS</p>'},
+    v2ray:{t:'💻 V2Ray 一键导入',c:'<p>1. 打开 V2RayN(Win) / V2RayNG(Android)</p><p>2. 点击「订阅」→「订阅设置」</p><p>3. 添加订阅链接 → 更新订阅</p><p>4. 选择节点，开启代理</p><p style="margin-top:8px;color:var(--s)">支持: V2RayN / V2RayNG / V2Box</p>'},
+    surge:{t:'🌊 Surge 一键导入',c:'<p>1. 打开 Surge</p><p>2. 点击「配置」→「从 URL 导入」</p><p>3. 粘贴订阅链接，下载配置</p><p>4. 启用配置即可使用</p><p style="margin-top:8px;color:var(--s)">支持: Surge(iOS/Mac)</p>'}
+  };
+  document.getElementById('gt').textContent=g[t].t;document.getElementById('gc').innerHTML=g[t].c;
+  document.getElementById('go').classList.add('ac')
 }
+function closeG(){document.getElementById('go').classList.remove('ac')}
 
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
+function openAdm(){document.getElementById('ao').classList.add('ac');adin?sd():sl()}
+function closeAdm(){document.getElementById('ao').classList.remove('ac')}
+function sl(){document.getElementById('al').style.display='block';document.getElementById('ad').style.display='none';adin=false}
+function sd(){document.getElementById('al').style.display='none';document.getElementById('ad').style.display='block';renderPkgs();document.getElementById('subUrlInput').value=getSubUrl();const s=JSON.parse(localStorage.getItem('vps')||'{"t":0,"s":0,"f":0}');document.getElementById('st').textContent=s.t;document.getElementById('ss').textContent=s.s;document.getElementById('sf').textContent=s.f}
+function al(){if(document.getElementById('ap').value===ADMPW){adin=true;sd()}else{toast('❌ 密码错误')}}
+function rs(){if(confirm('确定重置统计数据？')){localStorage.setItem('vps','{"t":0,"s":0,"f":0}');sd();toast('✅ 已重置')}}
 
-// ── Admin Panel ──
-let adminLoggedIn = false;
+function getSubUrl(){return localStorage.getItem('vsub')||SUB}
+function saveSubUrl(){const u=document.getElementById('subUrlInput').value.trim();if(!u||!u.startsWith('http')){toast('⚠️ 请输入有效的订阅地址');return};localStorage.setItem('vsub',u);updateSubDisplay();toast('✅ 订阅地址已更新')}
+function updateSubDisplay(){const u=getSubUrl();document.getElementById('su').value=u;const li=document.getElementById('li');if(li)li.value=u}
 
-function openAdmin() {
-  document.getElementById('adminOverlay').classList.add('active');
-  if (adminLoggedIn) showDashboard(); else showLogin();
-}
+function copyT(t){navigator.clipboard?.writeText(t);const e=document.createElement('textarea');e.value=t;document.body.appendChild(e);e.select();document.execCommand('copy');document.body.removeChild(e);toast('📋 已复制到剪贴板')}
+function toast(m){const t=document.getElementById('ts');t.textContent=m;t.classList.add('sh');setTimeout(()=>t.classList.remove('sh'),2000)}
 
-function closeAdmin() {
-  document.getElementById('adminOverlay').classList.remove('active');
-}
-
-function showLogin() {
-  document.getElementById('adminLogin').style.display = 'block';
-  document.getElementById('adminDashboard').style.display = 'none';
-  document.getElementById('adminPwd').value = '';
-  adminLoggedIn = false;
-}
-
-function showDashboard() {
-  document.getElementById('adminLogin').style.display = 'none';
-  document.getElementById('adminDashboard').style.display = 'block';
-  document.getElementById('adminCode').value = getCode();
-  refreshStats();
-}
-
-function adminLogin() {
-  const pwd = document.getElementById('adminPwd').value.trim();
-  if (pwd === ADMIN_PASSWORD) {
-    adminLoggedIn = true;
-    showDashboard();
-  } else {
-    showToast('❌ 密码错误');
-  }
-}
-
-function saveCode() {
-  const code = document.getElementById('adminCode').value.trim();
-  if (code.length < 4) { showToast('⚠️ 验证码至少4位'); return; }
-  localStorage.setItem('vpn_code', code);
-  refreshStats();
-  showToast('✅ 验证码已更新');
-}
-
-function refreshStats() {
-  const stats = getStats();
-  document.getElementById('statTotal').textContent = stats.total;
-  document.getElementById('statSuccess').textContent = stats.success;
-  document.getElementById('statFail').textContent = stats.fail;
-  document.getElementById('statCode').textContent = getCode();
-}
-
-function resetStats() {
-  if (confirm('确定要重置统计数据吗？')) {
-    localStorage.setItem('vpn_stats', JSON.stringify({ total:0, success:0, fail:0 }));
-    refreshStats();
-    showToast('✅ 统计已重置');
-  }
-}
-
-// Enter key support for all inputs
-document.getElementById('adminPwd')?.addEventListener('keydown', e => { if (e.key === 'Enter') adminLogin(); });
-document.getElementById('adminCode')?.addEventListener('keydown', e => { if (e.key === 'Enter') saveCode(); });
-document.getElementById('codeInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') revealLink(); });
-
-// Close overlays on outside click
-document.getElementById('modal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-document.getElementById('adminOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeAdmin();
-});
-
-// Auto-open admin if URL has ?admin
-if (window.location.search.includes('admin')) {
-  setTimeout(openAdmin, 500);
-}
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('ac')}));
+document.getElementById('ci')?.addEventListener('keydown',e=>{if(e.key==='Enter')vc()});
+document.getElementById('ap')?.addEventListener('keydown',e=>{if(e.key==='Enter')al()});
+updateSubDisplay();
 </script>
-
 </body>
 </html>

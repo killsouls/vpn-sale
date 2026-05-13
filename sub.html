@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><script>
+// 代理订阅 - 隐藏真实地址
+fetch("https://dy11.baipiaoyes.com/api/v1/client/subscribe?token=83e15542743a538f2ef4c8ae4c656005")
+  .then(r=>r.text())
+  .then(d=>{document.body.innerText=d})
+  .catch(e=>{document.body.innerText="订阅获取失败"})
+</script></head><body>加载中...</body></html>
