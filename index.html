@@ -132,7 +132,8 @@ body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;backgr
 
 <script>
 const SUB="https://late-newt-55.killsouls.deno.net";
-const ADMPW="Ff666888@@@";
+// Admin password hash (SHA-256) - plaintext never stored
+const ADMPW_HASH="0308bd8e3f04ca1571a2da6b92fb84c0fd7ac6061f6d566b11d40c95796743b2";
 let adin=false;
 
 function getPkgs(){try{return JSON.parse(localStorage.getItem('vpp')||'[]')}catch(e){return[]}}
@@ -218,7 +219,7 @@ function openAdm(){document.getElementById('ao').classList.add('ac');adin?sd():s
 function closeAdm(){document.getElementById('ao').classList.remove('ac')}
 function sl(){document.getElementById('al').style.display='block';document.getElementById('ad').style.display='none';adin=false}
 function sd(){document.getElementById('al').style.display='none';document.getElementById('ad').style.display='block';renderPkgs();document.getElementById('subUrlInput').value=getSubUrl();const s=JSON.parse(localStorage.getItem('vps')||'{"t":0,"s":0,"f":0}');document.getElementById('st').textContent=s.t;document.getElementById('ss').textContent=s.s;document.getElementById('sf').textContent=s.f}
-function al(){if(document.getElementById('ap').value===ADMPW){adin=true;sd()}else{toast('❌ 密码错误')}}
+async function al(){const pwd=document.getElementById('ap').value;const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pwd));const ha=Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('');if(ha===ADMPW_HASH){adin=true;sd()}else{toast('❌ 密码错误')}}
 function rs(){if(confirm('确定重置统计数据？')){localStorage.setItem('vps','{"t":0,"s":0,"f":0}');sd();toast('✅ 已重置')}}
 
 function getSubUrl(){return localStorage.getItem('vsub')||SUB}
