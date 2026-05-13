@@ -2,6 +2,12 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#7c3aed">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="闪电网络">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
 <title>闪电网络 · 全球加速</title>
 <style>
 :root{--bg:#050510;--c:rgba(15,15,40,0.9);--a:#7c3aed;--g:#f59e0b;--t:#e8e8f0;--s:#8890a8;--gr:#10b981;--red:#ef4444;--blue:#3b82f6}
@@ -280,6 +286,7 @@ function toast(m){const t=document.getElementById('ts');t.textContent=m;t.classL
 
 // Init
 updateSubDisplay();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
 document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('ac')}));
 document.getElementById('ci')?.addEventListener('keydown',e=>{if(e.key==='Enter')vc()});
 document.getElementById('ap')?.addEventListener('keydown',e=>{if(e.key==='Enter')al()});
