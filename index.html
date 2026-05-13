@@ -148,7 +148,7 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
     <li><span class="check">✓</span> 节点每日自动更新，无需手动维护</li>
     <li><span class="check">✓</span> 1Gbps 高速带宽，4K 视频秒开</li>
   </ul>
-  <button class="bb" onclick="window.open('https://www.xichen22.com/s/kb5PHyS99mG','_blank')">💳 立 即 购 买</button>
+  <button class="bb" onclick="window.open('https://www.xichen22.com/s/kb5PHyS99mG','_blank');setTimeout(()=>openBuy(),1500)">💳 立 即 购 买</button>
   <p style="margin-top:12px;font-size:13px;color:var(--s)">已付款？<a href="javascript:void(0)" onclick="openBuy()" style="color:#a78bfa;text-decoration:underline;cursor:pointer">输入验证码获取订阅</a></p>
 </div>
 
@@ -159,8 +159,8 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 </div>
 
 <!-- 购买弹窗 -->
-<div class="ov" id="bo"><div class="md"><h3>✅ 输入验证码</h3>
-<p style="text-align:center;font-size:13px;color:var(--s);margin-bottom:8px">付款后联系客服获取验证码</p>
+<div class="ov" id="bo"><div class="md"><h3>💰 输入验证码</h3>
+<p style="text-align:center;font-size:13px;color:var(--s);margin-bottom:12px">请在支付宝完成付款后<br>联系客服获取验证码</p>
 <input class="ci" id="ci" placeholder="输入6位验证码" maxlength="6" autocomplete="off">
 <div class="ce" id="ce">❌ 验证码错误</div>
 <button class="bt bt-g" style="width:100%;padding:14px;margin-top:6px" onclick="vc()">✅ 验证并获取订阅</button>
