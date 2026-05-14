@@ -1,294 +1,44 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#7c3aed">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="闪电网络">
-<link rel="apple-touch-icon" href="icon-192.png">
-<link rel="manifest" href="manifest.json">
-<title>闪电网络 · 全球加速</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lightning Network</title>
 <style>
-:root{--bg:#050510;--c:rgba(15,15,40,0.9);--a:#7c3aed;--g:#f59e0b;--t:#e8e8f0;--s:#8890a8;--gr:#10b981;--red:#ef4444;--blue:#3b82f6}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(124,58,237,0.08),transparent),radial-gradient(ellipse 40% 40% at 80% 100%,rgba(59,130,246,0.05),transparent),radial-gradient(ellipse 30% 50% at 20% 80%,rgba(245,158,11,0.04),transparent);pointer-events:none;z-index:0}
-.w{max-width:860px;margin:0 auto;padding:20px 16px 40px;position:relative;z-index:1}
-
-/* Hero */
-.h{text-align:center;padding:40px 0 16px}
-.h .icon{width:72px;height:72px;margin:0 auto 12px;background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(245,158,11,0.15));border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:36px;border:1px solid rgba(124,58,237,0.3);backdrop-filter:blur(10px);animation:pulse 3s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 20px rgba(124,58,237,0.2)}50%{box-shadow:0 0 40px rgba(124,58,237,0.4)}}
-.h h1{font-size:34px;font-weight:800;background:linear-gradient(135deg,#a78bfa 0%,#7c3aed 40%,#f59e0b 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:8px 0;letter-spacing:-0.5px}
-.h p{color:var(--s);font-size:15px;font-weight:300}
-
-/* Stats */
-.sb{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0}
-.sb>div{background:linear-gradient(145deg,rgba(15,15,40,0.95),rgba(10,10,30,0.9));border-radius:16px;padding:18px 12px;text-align:center;border:1px solid rgba(124,58,237,0.15);backdrop-filter:blur(10px);transition:all .3s}
-.sb>div:hover{border-color:rgba(124,58,237,0.4);transform:translateY(-2px);box-shadow:0 8px 25px rgba(124,58,237,0.1)}
-.sb .num{font-size:26px;font-weight:800;color:#a78bfa;display:block;line-height:1.2}
-.sb .num.gold{color:var(--g)}
-.sb .num.green{color:var(--gr)}
-.sb .lbl{font-size:11px;color:var(--s);display:block;margin-top:4px;letter-spacing:0.5px}
-.sb .bar-wrap{margin-top:8px;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
-.sb .bar{height:100%;background:linear-gradient(90deg,var(--a),#a78bfa);border-radius:3px;transition:width .8s ease}
-
-/* Import bar */
-.ib{background:linear-gradient(145deg,rgba(15,15,40,0.95),rgba(12,12,35,0.9));border-radius:16px;padding:18px 20px;margin-bottom:20px;border:1px solid rgba(124,58,237,0.25);display:flex;align-items:center;gap:12px;flex-wrap:wrap;backdrop-filter:blur(10px)}
-.ib .lb{font-weight:700;color:#a78bfa;font-size:14px;white-space:nowrap;display:flex;align-items:center;gap:6px}
-.ib .ub{flex:1;min-width:200px;display:flex;gap:6px}
-.ib input{flex:1;padding:10px 14px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:#a78bfa;font-size:12px;font-family:monospace;outline:none;transition:.2s}
-.ib input:focus{border-color:var(--a)}
-.bt{display:inline-flex;align-items:center;gap:5px;padding:10px 16px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:0.3px}
-.bt-p{background:linear-gradient(135deg,var(--a),#8b5cf6);color:#fff;box-shadow:0 2px 10px rgba(124,58,237,0.3)}.bt-p:hover{box-shadow:0 4px 20px rgba(124,58,237,0.5);transform:translateY(-1px)}
-.bt-g{background:linear-gradient(135deg,var(--g),#fbbf24);color:#1a1a2e;box-shadow:0 2px 10px rgba(245,158,11,0.3)}.bt-g:hover{box-shadow:0 4px 20px rgba(245,158,11,0.5);transform:translateY(-1px)}
-.bt-o{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:var(--t)}.bt-o:hover{background:rgba(124,58,237,0.15);border-color:rgba(124,58,237,0.4)}
-.ibtns{display:flex;gap:6px;flex-wrap:wrap}
-
-/* Buy section */
-.by{background:linear-gradient(160deg,rgba(20,12,50,0.98),rgba(10,8,35,0.95));border-radius:24px;padding:36px 28px;text-align:center;margin:24px 0;border:1.5px solid rgba(124,58,237,0.35);position:relative;overflow:hidden;backdrop-filter:blur(10px)}
-.by::before{content:'';position:absolute;top:-30%;right:-20%;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,0.15),transparent);border-radius:50%;pointer-events:none}
-.by::after{content:'';position:absolute;bottom:-20%;left:-10%;width:150px;height:150px;background:radial-gradient(circle,rgba(245,158,11,0.1),transparent);border-radius:50%;pointer-events:none}
-.by>*{position:relative;z-index:1}
-.by h3{font-size:24px;font-weight:700;margin-bottom:4px;letter-spacing:-0.3px}
-.by .sub{color:var(--s);font-size:14px;margin-bottom:4px}
-.by .badge-hot{display:inline-block;background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:700;margin-bottom:14px;animation:glow 2s ease-in-out infinite}
-@keyframes glow{0%,100%{box-shadow:0 0 8px rgba(239,68,68,0.4)}50%{box-shadow:0 0 20px rgba(239,68,68,0.7)}}
-.by .og{text-decoration:line-through;color:var(--s);font-size:14px;margin-bottom:4px}
-.by .pr{font-size:56px;font-weight:900;color:var(--g);line-height:1;margin:8px 0}
-.by .pr small{font-size:28px;font-weight:600;vertical-align:top;margin-right:2px}
-.by .pkg-detail{font-size:13px;color:var(--s);margin:6px 0 14px}
-.by ul{list-style:none;margin:14px 0;display:inline-block;text-align:left}
-.by ul li{padding:7px 0;font-size:14px;display:flex;align-items:center;gap:8px}
-.by ul li .check{color:var(--gr);font-weight:700}
-.bb{display:block;width:100%;max-width:320px;margin:20px auto 0;padding:16px 24px;border:none;border-radius:14px;font-size:18px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;letter-spacing:3px;transition:all .3s;box-shadow:0 4px 20px rgba(124,58,237,0.3)}
-.bb:hover{transform:translateY(-2px);box-shadow:0 8px 35px rgba(124,58,237,0.5);letter-spacing:5px}
-
-/* Modals */
-.ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.88);z-index:100;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
-.ov.ac{display:flex}
-.md{background:linear-gradient(160deg,rgba(20,15,45,0.98),rgba(12,10,32,0.98));border-radius:20px;padding:28px 24px;max-width:440px;width:100%;border:1px solid rgba(124,58,237,0.25);max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
-.md h3{text-align:center;margin-bottom:16px;font-size:20px;font-weight:700}
-.qr{display:block;width:200px;height:200px;margin:12px auto;border-radius:16px;object-fit:contain;border:2px solid rgba(255,255,255,0.08);background:#fff}
-.ci{width:100%;padding:14px 16px;background:rgba(0,0,0,0.4);border:2px solid rgba(124,58,237,0.3);border-radius:12px;color:#fff;font-size:20px;text-align:center;letter-spacing:8px;font-family:monospace;outline:none;margin:10px 0;transition:.2s}
-.ci:focus{border-color:var(--a);box-shadow:0 0 15px rgba(124,58,237,0.15)}
-.ce{display:none;color:var(--red);font-size:13px;text-align:center;margin:6px 0;font-weight:500}
-.ce.sh{display:block}
-.lb2{display:none;margin-top:12px;background:rgba(0,0,0,0.3);border-radius:12px;padding:16px;border:1px solid rgba(245,158,11,0.25)}
-.lb2.sh{display:block}
-.lb2 label{font-size:12px;color:var(--s);display:block;margin-bottom:8px;font-weight:600}
-.lb2 textarea{width:100%;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.06);border-radius:8px;color:#a78bfa;font-size:12px;padding:10px;font-family:monospace;resize:none;word-break:break-all;outline:none}
-.cls{display:block;width:100%;padding:12px;border:none;border-radius:10px;background:rgba(255,255,255,0.04);color:var(--s);font-size:14px;cursor:pointer;margin-top:12px;transition:.2s}
-.cls:hover{background:rgba(255,255,255,0.08)}
-
-/* Toast */
-.ts{position:fixed;top:24px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:12px 28px;border-radius:30px;font-size:14px;font-weight:600;z-index:200;opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 4px 20px rgba(16,185,129,0.3)}
-.ts.sh{opacity:1;transform:translateX(-50%) translateY(4px)}
-
-/* Footer */
-.ft{text-align:center;padding:20px 0;color:var(--s);font-size:12px;border-top:1px solid rgba(255,255,255,0.03);margin-top:10px}
-.ft .admin-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--s);padding:8px 18px;border-radius:20px;cursor:pointer;font-size:12px;transition:.2s}
-.ft .admin-btn:hover{background:rgba(124,58,237,0.15);border-color:rgba(124,58,237,0.3);color:#a78bfa}
-
-/* Admin panel */
-.acm{margin:8px 0;padding:10px;background:rgba(0,0,0,0.3);border-radius:10px;font-size:12px;border:1px solid rgba(255,255,255,0.04)}
-.acm .row{display:flex;gap:6px;align-items:center;margin:4px 0}
-.acm input,.acm select{flex:1;padding:7px 10px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#fff;font-size:12px;outline:none}
-.acm select{appearance:none;cursor:pointer}
-.del-btn{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25);color:var(--red);padding:5px 10px;border-radius:6px;cursor:pointer;font-size:11px;transition:.2s}
-.del-btn:hover{background:rgba(239,68,68,0.25)}
-.pkgs{margin:8px 0;max-height:170px;overflow-y:auto}
-.pkg-row{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-bottom:1px solid rgba(255,255,255,0.03);font-size:12px}
-.pkg-row:last-child{border-bottom:none}
-
-/* Traffic bar */
-.traffic-info{font-size:12px;color:var(--s);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:4px}
-.traffic-info .used{color:var(--red)}
-.traffic-info .left{color:var(--gr)}
-
-@media(max-width:600px){
-  .h h1{font-size:26px}.h .icon{width:60px;height:60px;font-size:28px}
-  .sb{grid-template-columns:repeat(2,1fr);gap:8px}
-  .sb>div{padding:14px 10px}.sb .num{font-size:22px}
-  .by .pr{font-size:44px}.by .pr small{font-size:22px}
-  .ib{flex-direction:column;align-items:stretch}
-}
+body{font-family:'PingFang SC',sans-serif;background:#050510;color:#e8e8f0;display:flex;justify-content:center;align-items:center;min-height:100vh}
+.c{background:linear-gradient(160deg,#14123c,#0a0823);border-radius:20px;padding:40px 28px;text-align:center;max-width:380px;width:90%;border:1px solid rgba(124,58,237,.3)}
+h2{margin-bottom:6px}
+.pr{font-size:52px;font-weight:900;color:#f59e0b;margin:20px 0 8px}
+.pr span{font-size:16px;font-weight:400;color:#8890a8;text-decoration:line-through;display:block;margin-bottom:4px}
+ul{list-style:none;display:inline-block;margin:14px 0}
+li{padding:6px 0;font-size:14px}
+.btn{display:block;width:100%;padding:16px;background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;border:none;border-radius:14px;font-size:18px;font-weight:700;cursor:pointer;letter-spacing:3px;margin-top:16px;text-decoration:none}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,58,237,.4)}
+.btn2{display:block;width:100%;padding:18px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#10b981;border-radius:14px;font-size:14px;cursor:pointer;margin-top:12px;text-decoration:none}
+.lb{background:rgba(0,0,0,.6);border-radius:12px;padding:16px;margin:14px 0;border:1px solid rgba(255,255,255,.06);display:none}
+.lb textarea{width:100%;background:transparent;border:none;color:#a78bfa;font-size:12px;font-family:monospace;resize:none;text-align:center;outline:none}
+.cp{display:none;padding:10px;background:rgba(124,58,237,.2);border-radius:10px;color:#a78bfa;font-size:13px;margin:10px 0;cursor:pointer}
 </style>
 </head>
 <body>
-<div class="w">
-<div class="h"><div class="icon">⚡</div><h1>闪电网络</h1><p>全球加速 · 极速体验 · 稳定可靠</p></div>
-
-<!-- Stats -->
-<div class="sb">
-  <div><span class="num">24</span><span class="lbl">🌍 全球节点</span></div>
-  <div><span class="num green">10</span><span class="lbl">📍 覆盖地区</span></div>
-  <div><span class="num gold">1Gbps</span><span class="lbl">🚀 峰值带宽</span></div>
-  <div>
-    <span class="num green">1000GB</span>
-    <span class="lbl">📦 套餐流量</span>
-  </div>
+<div class="c">
+<h2>Lightning Network</h2>
+<p style="color:#8890a8;font-size:14px">Global Premium</p>
+<div class="pr"><span>199</span>50</div>
+<ul>
+<li>1000GB Traffic</li>
+<li>9 Months</li>
+<li>All Platforms</li>
+<li>One-Click Import</li>
+</ul>
+<a href="https://www.xichen22.com/s/kb5PHyS99mG" class="btn" target="_blank">Alipay Pay 50</a>
+<button class="btn2" onclick="document.getElementById('link').style.display='block';document.getElementById('cp').style.display='block'">Paid? Get Subscription</button>
+<div class="lb" id="link">
+<textarea readonly rows="3">https://dy11.baipiaoyes.com/api/v1/client/subscribe?token=83e15542743a538f2ef4c8ae4c656005</textarea>
 </div>
-
-<!-- Import（验证后显示） -->
-<div class="ib" id="importBar" style="display:none"><span class="lb">🔗 订阅导入</span><div class="ub"><input id="su" value="https://dirty-butterfly-43.killsouls.deno.net" readonly><button class="bt bt-p" onclick="copyT('https://dirty-butterfly-43.killsouls.deno.net')">📋 复制</button></div><div class="ibtns"><button class="bt bt-o" onclick="openG('clash')">🟣 Clash</button><button class="bt bt-o" onclick="openG('sr')">📱 小火箭</button><button class="bt bt-o" onclick="openG('v2ray')">💻 V2Ray</button><button class="bt bt-o" onclick="openG('surge')">🌊 Surge</button></div></div>
-
-<!-- 购买 -->
-<div class="by" id="buy">
-  <span class="badge-hot">🔥 限时特惠</span>
-  <h3>全球畅联套餐</h3>
-  <p class="sub">高速专线 · 无限设备 · 全协议支持</p>
-  <div class="og">原价 ¥199</div>
-  <div class="pr"><small>¥</small><span id="pkgPrice">50</span></div>
-  <p class="pkg-detail" id="pkgInfo">1000GB 流量 · 9个月有效期</p>
-  <ul>
-    <li><span class="check">✓</span> 全平台通用 iOS / Android / Win / Mac</li>
-    <li><span class="check">✓</span> 一键导入 Clash · 小火箭 · V2Ray · Surge</li>
-    <li><span class="check">✓</span> 节点每日自动更新，无需手动维护</li>
-    <li><span class="check">✓</span> 1Gbps 高速带宽，4K 视频秒开</li>
-  </ul>
-  <button class="bb" onclick="window.open('https://www.xichen22.com/s/kb5PHyS99mG','_blank');setTimeout(()=>openBuy(),1500)">💳 立 即 购 买</button>
-  <p style="margin-top:12px;font-size:13px;color:var(--s)">已付款？<a href="javascript:void(0)" onclick="openBuy()" style="color:#a78bfa;text-decoration:underline;cursor:pointer">输入验证码获取订阅</a></p>
+<div class="cp" id="cp" onclick="navigator.clipboard.writeText('https://dy11.baipiaoyes.com/api/v1/client/subscribe?token=83e15542743a538f2ef4c8ae4c656005');this.textContent='Copied!'">Copy Link</div>
+<p style="margin-top:12px;font-size:11px;color:#8890a8">Clash · Shadowrocket · V2Ray</p>
 </div>
-
-<div class="ft">
-  <p>Clash · Shadowrocket · V2RayN · Surge 全客户端支持</p>
-  <p style="margin-top:8px"><button class="admin-btn" onclick="openAdm()">⚙️ 管理员入口</button></p>
-</div>
-</div>
-
-<!-- 购买弹窗 -->
-<div class="ov" id="bo"><div class="md"><h3>💰 输入验证码</h3>
-<p style="text-align:center;font-size:13px;color:var(--s);margin-bottom:12px">请在支付宝完成付款后<br>联系客服获取验证码</p>
-<input class="ci" id="ci" placeholder="输入6位验证码" maxlength="6" autocomplete="off">
-<div class="ce" id="ce">❌ 验证码错误</div>
-<button class="bt bt-g" style="width:100%;padding:14px;margin-top:6px" onclick="vc()">✅ 验证并获取订阅</button>
-<div class="lb2" id="lb2">
-<label>📋 您的专属订阅链接</label>
-<textarea id="li" readonly rows="2"></textarea>
-<div id="pkgDetail" style="margin-top:8px;font-size:13px;color:#a78bfa;text-align:center"></div>
-<button class="bt bt-p" style="width:100%;margin-top:8px" onclick="copyT(document.getElementById('li').value)">📋 复制订阅链接</button>
-</div>
-<button class="cls" onclick="closeBuy()">关闭</button></div></div>
-
-<!-- 导入教程 -->
-<div class="ov" id="go"><div class="md"><h3 id="gt">📱 导入教程</h3><div id="gc"></div><button class="cls" onclick="closeG()">关闭</button></div></div>
-
-<!-- 管理员后台 -->
-<div class="ov" id="ao"><div class="md">
-<div id="al"><h3>🔐 管理员登录</h3><input type="password" class="ci" id="ap" placeholder="管理密码" style="letter-spacing:2px;font-size:16px"><button class="bt bt-g" style="width:100%;padding:14px" onclick="al()">登录</button><button class="cls" onclick="closeAdm()">关闭</button></div>
-<div id="ad" style="display:none"><h3>⚙️ 终端管理</h3>
-
-<div style="margin:10px 0 6px"><b>🔗 订阅地址</b></div>
-<div style="display:flex;gap:6px;margin-bottom:12px"><input id="subUrlInput" style="flex:1;padding:8px 10px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:#a78bfa;font-size:11px;font-family:monospace;outline:none" placeholder="粘贴新的订阅链接"><button class="bt bt-p" onclick="saveSubUrl()" style="padding:8px 14px;font-size:12px">💾 保存</button></div>
-
-<div style="margin:10px 0"><b>📦 套餐管理</b></div>
-<div class="acm">
-<div class="row"><input id="pkName" placeholder="套餐名称"><input id="pkGB" placeholder="流量(GB)" style="max-width:70px"><select id="pkMo"><option value="1">1个月</option><option value="3">3个月</option><option value="6">6个月</option><option value="9" selected>9个月</option><option value="12">12个月</option></select></div>
-<div class="row"><input id="pkPrice" placeholder="价格"><input id="pkCode" placeholder="验证码(6位)" maxlength="6" style="max-width:100px"><button class="bt bt-p" onclick="addPkg()" style="padding:6px 12px;font-size:12px">➕ 添加</button></div>
-</div>
-<div class="pkgs" id="pkgs"></div>
-
-<div style="margin:12px 0 8px"><b>📊 销售统计</b></div>
-<div style="font-size:13px"><div>验证尝试: <b id="st" style="color:#a78bfa">0</b></div><div>成功: <b id="ss" style="color:#10b981">0</b></div><div>失败: <b id="sf" style="color:#ef4444">0</b></div></div>
-<button class="bt" style="width:100%;background:rgba(239,68,68,0.08);color:var(--red);border:1px solid rgba(239,68,68,0.2);margin:10px 0;padding:8px" onclick="rs()">🔄 重置统计</button>
-<button class="cls" onclick="closeAdm()">关闭后台</button></div></div></div>
-
-<div class="ts" id="ts"></div>
-
-<script>
-const SUB="https://dirty-butterfly-43.killsouls.deno.net";
-const ADMPW_HASH="0308bd8e3f04ca1571a2da6b92fb84c0fd7ac6061f6d566b11d40c95796743b2";
-let adin=false;
-
-// Init
-updateSubDisplay();
-function getPkgs(){try{return JSON.parse(localStorage.getItem('vpp')||'[]')}catch(e){return[]}}
-function savePkgs(p){localStorage.setItem('vpp',JSON.stringify(p))}
-function addPkg(){
-  const n=document.getElementById('pkName').value.trim(),gb=document.getElementById('pkGB').value.trim(),mo=document.getElementById('pkMo').value,pr=document.getElementById('pkPrice').value.trim(),cd=document.getElementById('pkCode').value.trim();
-  if(!n||!gb||!pr||!cd||cd.length<4){toast('⚠️ 请填写完整');return}
-  let pkgs=getPkgs();if(pkgs.find(p=>p.code===cd)){toast('⚠️ 验证码重复');return}
-  pkgs.push({name:n,gb:Number(gb),mo:Number(mo),price:Number(pr),code:cd,uses:0});savePkgs(pkgs);
-  ['pkName','pkGB','pkPrice','pkCode'].forEach(id=>document.getElementById(id).value='');
-  renderPkgs();toast('✅ 已添加')
-}
-function delPkg(code){if(!confirm('删除？'))return;savePkgs(getPkgs().filter(p=>p.code!==code));renderPkgs();toast('✅ 已删除')}
-function renderPkgs(){
-  const pkgs=getPkgs(),el=document.getElementById('pkgs');
-  if(!pkgs.length){el.innerHTML='<div style="color:var(--s);font-size:12px;text-align:center;padding:10px">暂无套餐</div>';return}
-  el.innerHTML=pkgs.map(p=>`<div class="pkg-row"><span>📦 ${p.name} | ${p.gb}GB/${p.mo}月 | ¥${p.price} | 码:<b style="color:#f59e0b">${p.code}</b></span><div style="display:flex;align-items:center;gap:4px"><span style="font-size:10px;color:var(--s)">售${p.uses||0}</span><button class="del-btn" onclick="delPkg('${p.code}')">✕</button></div></div>`).join('')
-}
-
-// Buy
-function openBuy(){document.getElementById('bo').classList.add('ac');document.getElementById('ci').value='';document.getElementById('ce').classList.remove('sh');document.getElementById('lb2').classList.remove('sh');document.getElementById('pkgDetail').textContent=''}
-function closeBuy(){document.getElementById('bo').classList.remove('ac')}
-function vc(){
-  const v=document.getElementById('ci').value.trim(),e=document.getElementById('ce');
-  if(!v){e.textContent='⚠️ 请输入验证码';e.classList.add('sh');return}
-  let s=JSON.parse(localStorage.getItem('vps')||'{"t":0,"s":0,"f":0}');s.t++;
-  const pkgs=getPkgs(),pkg=pkgs.find(p=>p.code===v);
-  if(pkg){
-    s.s++;localStorage.setItem('vps',JSON.stringify(s));pkg.uses=(pkg.uses||0)+1;savePkgs(pkgs);
-    e.classList.remove('sh');document.getElementById('li').value=getSubUrl();
-    const exp=new Date(Date.now()+pkg.mo*30*86400000).toLocaleDateString('zh-CN');
-    document.getElementById('pkgDetail').innerHTML=`📦 <b>${pkg.name}</b> · ${pkg.gb}GB · ${pkg.mo}个月 · 到期: ${exp}`;
-    document.getElementById('lb2').classList.add('sh');
-    document.getElementById('importBar').style.display='flex';
-    toast(`✅ ${pkg.name} 已激活！${pkg.gb}GB，${pkg.mo}个月`);return
-  }
-  if(v===(localStorage.getItem('vpc')||'888888')){
-    s.s++;localStorage.setItem('vps',JSON.stringify(s));e.classList.remove('sh');
-    document.getElementById('li').value=getSubUrl();
-    document.getElementById('pkgDetail').innerHTML='📦 <b>默认套餐</b> · 1000GB · 9个月';
-    document.getElementById('lb2').classList.add('sh');
-    document.getElementById('importBar').style.display='flex';
-    toast('✅ 订阅链接已生成');return
-  }
-  s.f++;localStorage.setItem('vps',JSON.stringify(s));
-  e.textContent='❌ 验证码错误，请联系客服';e.classList.add('sh')
-}
-
-// Guides
-function openG(t){
-  const g={
-    clash:{t:'🟣 Clash 一键导入',c:'<p>1. 打开 Clash Verge / Clash for Windows</p><p>2. 点击「配置」→「导入」</p><p>3. 粘贴订阅链接，下载配置</p><p>4. 开启系统代理</p><p style="margin-top:8px;color:var(--s)">支持: Clash Verge / ClashX / CFW / Clash for Android</p>'},
-    sr:{t:'📱 Shadowrocket 一键导入',c:'<p>1. 打开 Shadowrocket（小火箭）</p><p>2. 点击右上角 + → 类型选 Subscribe</p><p>3. 粘贴订阅链接，点完成</p><p>4. 选择节点连接</p><p style="margin-top:8px;color:var(--s)">仅支持 iOS</p>'},
-    v2ray:{t:'💻 V2Ray 一键导入',c:'<p>1. 打开 V2RayN / V2RayNG</p><p>2. 点击「订阅」→「订阅设置」</p><p>3. 添加订阅链接 → 更新订阅</p><p>4. 选择节点开启代理</p><p style="margin-top:8px;color:var(--s)">支持: V2RayN / V2RayNG</p>'},
-    surge:{t:'🌊 Surge 一键导入',c:'<p>1. 打开 Surge</p><p>2. 点击「配置」→「从 URL 导入」</p><p>3. 粘贴订阅链接，下载配置</p><p>4. 启用配置即可使用</p><p style="margin-top:8px;color:var(--s)">支持: Surge(iOS/Mac)</p>'}
-  };
-  document.getElementById('gt').textContent=g[t].t;document.getElementById('gc').innerHTML=g[t].c;document.getElementById('go').classList.add('ac')
-}
-function closeG(){document.getElementById('go').classList.remove('ac')}
-
-// Admin
-function openAdm(){document.getElementById('ao').classList.add('ac');if(adin)sd();else sl()}
-function closeAdm(){document.getElementById('ao').classList.remove('ac')}
-function sl(){document.getElementById('al').style.display='block';document.getElementById('ad').style.display='none';adin=false;document.getElementById('ap').value=''}
-function sd(){
-  document.getElementById('al').style.display='none';document.getElementById('ad').style.display='block';
-  document.getElementById('subUrlInput').value=getSubUrl();renderPkgs();
-  const s=JSON.parse(localStorage.getItem('vps')||'{"t":0,"s":0,"f":0}');document.getElementById('st').textContent=s.t;document.getElementById('ss').textContent=s.s;document.getElementById('sf').textContent=s.f
-}
-async function al(){const pwd=document.getElementById('ap').value;const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pwd));const ha=Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('');if(ha===ADMPW_HASH){adin=true;sd()}else{toast('❌ 密码错误')}}
-function rs(){if(confirm('确定重置？')){localStorage.setItem('vps','{"t":0,"s":0,"f":0}');sd();toast('✅ 已重置')}}
-
-// Sub URL
-function getSubUrl(){return localStorage.getItem('vsub')||SUB}
-function saveSubUrl(){const u=document.getElementById('subUrlInput').value.trim();if(!u||!u.startsWith('http')){toast('⚠️ 无效地址');return};localStorage.setItem('vsub',u);updateSubDisplay();toast('✅ 已更新')}
-function updateSubDisplay(){const u=getSubUrl();document.getElementById('su').value=u;const li=document.getElementById('li');if(li)li.value=u}
-
-// Utils
-function copyT(t){navigator.clipboard?.writeText(t);const e=document.createElement('textarea');e.value=t;document.body.appendChild(e);e.select();document.execCommand('copy');document.body.removeChild(e);toast('📋 已复制')}
-function toast(m){const t=document.getElementById('ts');t.textContent=m;t.classList.add('sh');setTimeout(()=>t.classList.remove('sh'),2500)}
-
-// Init
-updateSubDisplay();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
-document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('ac')}));
-document.getElementById('ci')?.addEventListener('keydown',e=>{if(e.key==='Enter')vc()});
-document.getElementById('ap')?.addEventListener('keydown',e=>{if(e.key==='Enter')al()});
-</script>
 </body>
 </html>
